@@ -1,242 +1,358 @@
-# 🤖 Multi Agent QA for Financial Documents
+<p align="center">
+  <img src="https://capsule-render.vercel.app/api?type=waving&color=0:D97757,100:8B5E3C&height=260&section=header&text=Financial--QA&fontSize=66&fontColor=FAF9F5&animation=fadeIn&fontAlignY=35&desc=Multi-Agent%20Q%26A%20for%20Financial%20Documents&descAlignY=58&descSize=20&fontColorDesc=FAF9F5" width="100%"/>
+</p>
 
-<div align="center">
+<p align="center">
+  <img src="https://readme-typing-svg.demolab.com/?font=Fira+Code&weight=600&size=20&duration=3000&pause=800&color=D97757&center=true&vCenter=true&width=720&lines=Upload+a+financial+PDF.+Ask+anything.;8+autonomous+agents+do+the+rest.;Powered+by+LangGraph+%2B+GROQ+%2B+ChromaDB." alt="Typing SVG" />
+</p>
 
-**An intelligent LangGraph-based multi-agent system for financial document analysis, powered by LLM orchestration**
+<p align="center">
+  <img src="https://img.shields.io/badge/Python-3.9+-D97757?style=for-the-badge&logo=python&logoColor=FAF9F5&labelColor=3D3929" />
+  <img src="https://img.shields.io/badge/LangGraph-Multi--Agent-D97757?style=for-the-badge&labelColor=3D3929" />
+  <img src="https://img.shields.io/badge/Streamlit-UI-D97757?style=for-the-badge&logo=streamlit&logoColor=FAF9F5&labelColor=3D3929" />
+  <img src="https://img.shields.io/badge/ChromaDB-VectorStore-D97757?style=for-the-badge&labelColor=3D3929" />
+  <br/>
+  <img src="https://img.shields.io/github/stars/Invicta0305/Financial--QA?style=for-the-badge&color=D97757&labelColor=3D3929" />
+  <img src="https://img.shields.io/github/last-commit/Invicta0305/Financial--QA?style=for-the-badge&color=D97757&labelColor=3D3929" />
+  <img src="https://img.shields.io/badge/status-active-D97757?style=for-the-badge&labelColor=3D3929" />
+</p>
 
-[![Python 3.9+](https://img.shields.io/badge/python-3.9+-blue.svg)](https://www.python.org/downloads/)
-[![LangGraph](https://img.shields.io/badge/LangGraph-Multi--Agent-green.svg)](https://github.com/langchain-ai/langgraph)
-[![Streamlit](https://img.shields.io/badge/Streamlit-UI-red.svg)](https://streamlit.io/)
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+<p align="center">
+  <a href="#-overview"><img src="https://img.shields.io/badge/Overview-FAF9F5?style=flat-square&labelColor=D97757"/></a>
+  <a href="#-key-features"><img src="https://img.shields.io/badge/Features-FAF9F5?style=flat-square&labelColor=D97757"/></a>
+  <a href="#-architecture--workflow-diagrams"><img src="https://img.shields.io/badge/Architecture-FAF9F5?style=flat-square&labelColor=D97757"/></a>
+  <a href="#-tech-stack"><img src="https://img.shields.io/badge/Tech%20Stack-FAF9F5?style=flat-square&labelColor=D97757"/></a>
+  <a href="#-getting-started"><img src="https://img.shields.io/badge/Setup-FAF9F5?style=flat-square&labelColor=D97757"/></a>
+  <a href="#-using-the-application"><img src="https://img.shields.io/badge/Usage-FAF9F5?style=flat-square&labelColor=D97757"/></a>
+  <a href="#-agent-reference"><img src="https://img.shields.io/badge/Agents-FAF9F5?style=flat-square&labelColor=D97757"/></a>
+  <a href="#-troubleshooting"><img src="https://img.shields.io/badge/Troubleshooting-FAF9F5?style=flat-square&labelColor=D97757"/></a>
+</p>
 
-</div>
-
----
-
-## 🚀 Quick Start
-
-1. **Get API Keys** (all required):
-   - GROQ: https://console.groq.com
-   - Tavily: https://app.tavily.com
-   - Unstructured: https://unstructured.io
-
-2. **Clone & Install**:
-   ```
-   git clone https://github.com/Aditya-ad48/INTERIIT-NLP-Prepathon.git
-   cd INTERIIT-NLP-Prepathon
-   python -m venv finance_env
-   source finance_env/bin/activate  # On Windows: finance_env\Scripts\activate
-   pip install -r requirements.txt
-   ```
-
-3. **Configure Environment**:
-   ```
-   cp .env.example .env
-   # Edit .env and add your three API keys
-   ```
-
-4. **Ingest Documents**:
-   ```
-   mkdir -p data
-   # Add PDFs to data/ folder
-   python ingest.py
-   ```
-
-5. **Run Application**:
-   ```
-   streamlit run app_streamlit.py
-   ```
+<p align="center"><i>📸 — drop a screenshot or short demo GIF of the Streamlit UI right here once you have one —</i></p>
 
 ---
 
-## 📋 Table of Contents
+## 📑 Table of Contents
 
 - [Overview](#-overview)
 - [Key Features](#-key-features)
-- [System Architecture](#-system-architecture)
-- [Installation](#-installation)
-- [Usage](#-usage)
-- [Agent Descriptions](#-agent-descriptions)
-- [PDF Processing Pipeline](#-pdf-processing-pipeline)
-- [Chart & Image Analysis with Groq Vision](#-chart--image-analysis-with-groq-vision)
+- [Architecture & Workflow Diagrams](#-architecture--workflow-diagrams)
+- [Tech Stack](#-tech-stack)
 - [Project Structure](#-project-structure)
-- [Configuration](#-configuration)
-- [Technologies Used](#-technologies-used)
+- [Getting Started](#-getting-started)
+- [Using the Application](#-using-the-application)
+- [Agent Reference](#-agent-reference)
+- [Configuration Reference](#-configuration-reference)
+- [Vector Store Architecture Notes](#-vector-store-architecture-notes)
+- [Troubleshooting](#-troubleshooting)
+- [Roadmap](#-roadmap)
 - [Contributing](#-contributing)
+- [License](#-license)
+- [Acknowledgments](#-acknowledgments)
 
 ---
 
 ## 🎯 Overview
 
-This project implements a **swarm-based multi-agent system** for financial document analysis using **LangGraph** orchestration. Unlike hierarchical architectures with central supervisors, this system enables **autonomous agent coordination** where each specialized agent independently decides the next handoff based on query requirements and data availability.
+![section](https://img.shields.io/badge/-WHAT%20IS%20THIS%3F-D97757?style=for-the-badge&labelColor=3D3929)
 
-- **🧠 Intelligent Intent Classification**: Distinguishes between casual queries, conversation history requests, and informational questions
-- **🔄 Dynamic Agent Orchestration**: Agents autonomously decide next steps based on query requirements
-- **📊 Multi-Modal Processing**: Handles document retrieval, web search, table extraction, and mathematical calculations
-- **💾 Thread-Aware Caching**: Maintains conversation context across sessions
-- **⚡ Fault-Tolerant Design**: Graceful error handling with automatic fallback mechanisms
+> Drop in a financial document — a 10-K, an earnings report, an investor deck — and just **ask it questions** in plain English. Revenue, margins, YoY growth, risk summaries, period comparisons — it figures out what kind of answer you need and routes the query accordingly.
+
+This isn't a single RAG chain bolted onto a chatbot. It's a **swarm of 8 specialized LangGraph agents** that hand off to one another autonomously based on what the query actually needs — a cache lookup, a vector search, a web-search fallback, table extraction, a math calculation, or a plain-language summary. There's no central "supervisor" deciding everything up front; every agent inspects the shared state and decides where to send the query next.
+
+**Engineering highlights:**
+
+| 🧩 Challenge | ✅ How it's solved |
+|---|---|
+| Multi-modal PDF parsing | Unstructured.io extracts text + tables, **Groq Vision** reads charts/graphs |
+| Fast repeated queries | Vector-similarity **answer cache** — no full pipeline re-run for similar questions |
+| Safe autonomous routing | 12-hop safety cutoff stops runaway agent loops |
+| Stable vector store | One **singleton ChromaDB client** per process — no more tenant/locking errors on re-upload |
 
 ---
 
 ## ✨ Key Features
 
-### 🎯 Core Capabilities
+![section](https://img.shields.io/badge/-FEATURES-D97757?style=for-the-badge&labelColor=3D3929)
 
-| Feature | Description |
-|---------|-------------|
-| **Multi-Agent System** | 8 specialized agents working in coordinated swarm architecture |
-| **RAG Pipeline** | Retrieval-augmented generation with vector store and web search |
-| **Intent Classification** | LLM-based query classification (casual/informational/history) |
-| **Smart Routing** | Dynamic agent handoffs based on query type and data availability |
-| **Financial Analysis** | Specialized in extracting numbers, calculating ratios, and comparisons |
-| **Conversation Memory** | Thread-aware caching and conversation history tracking |
-| **PDF Processing** | Advanced document parsing and chunking |
-| **Web Search Integration** | Real-time external data retrieval via Tavily API |
-| **Vision Analysis** | Groq Vision API extracts data from charts/graphs/images |
+<table>
+<tr>
+<td width="50%" valign="top">
 
-### 🛠️ Technical Features
+### 🐝 Multi-Agent Swarm
+8 specialized agents hand off to each other dynamically instead of following one fixed pipeline.
 
-- **Stateful Graph Execution**: LangGraph StateGraph with persistent memory
-- **Retry Logic**: Exponential backoff for transient failures
-- **Error Handling**: Comprehensive exception handling with fallback agents
-- **Type Safety**: Pydantic models for state validation
-- **Modular Design**: Clean separation of concerns across agents
-- **Streamlit Interface**: User-friendly web UI with file upload
+### 📚 Retrieval-Augmented Generation
+ChromaDB vector store + HuggingFace embeddings for fast semantic document search.
 
----
+### 👁️ Vision-Aware PDF Parsing
+Unstructured.io extracts text/tables/images; Groq Vision actually *reads* charts and graphs.
 
-## 🏗️ System Architecture
+### 🌐 Web Search Fallback
+Tavily kicks in automatically when the uploaded document doesn't have enough information.
 
-### Agent Flow Diagram
+</td>
+<td width="50%" valign="top">
 
-```
-                    User Query
-                        ↓
-                ┌───────────────┐
-                │    Memory     │ ← Checks cache (90% similarity)
-                └───────┬───────┘
-                        ↓
-                ┌───────┴────────┐
-                │  Cache Hit?    │
-                └───────┬────────┘
-                        │
-                ┌───────┴────────┐
-                ↓                ↓
-          YES: Skip         NO: Continue
-          to Aggregator     Pipeline
-                │                │
-                │                ↓
-                │        ┌───────────────┐
-                │        │   Retriever   │ ← Vector store search (k=10)
-                │        └───────┬───────┘
-                │                ↓
-                │        ┌───────────────┐
-                │        │   Validator   │ ← Intent + data validation
-                │        └───────┬───────┘
-                │                │
-                │        ┌───────┴────────────────────────────┐
-                │        │  Validator Decision Logic          │
-                │        │  1. Casual? → Aggregator           │
-                │        │  2. Insufficient data? → WebSearch │
-                │        │  3. Needs calculation? → Table     │
-                │        │  4. Needs summary? → Summarizer    │
-                │        └───────┬────────────────────────────┘
-                │                │
-                │    ┌───────────┼───────────┬────────────┐
-                │    ↓           ↓           ↓            ↓
-                │ ┌─────────┐ ┌────────┐ ┌──────────┐ ┌───────────┐
-                │ │WebSearch│ │ Table  │ │Summarizer│ │ Direct to │
-                │ └────┬────┘ └───┬────┘ └────┬─────┘ │ Aggregator│
-                │      │          │           │       └─────┬─────┘
-                │      │          │           │             │
-                │      ↓          │           │             │
-                │ ┌─────────┐     │           │             │
-                │ │Validator│     │           │             │
-                │ │(Re-eval)│     │           │             │
-                │ └────┬────┘     │           │             │
-                │      │          │           │             │
-                │  ┌───┴──────────┼───────────┤             │
-                │  ↓              ↓           ↓             │
-                │ WebSearch → Validator decides:            │
-                │  results      Table/Summarizer/Aggregator │
-                │                │           │              │
-                │                ↓           ↓              │
-                │            ┌────────┐  (goes to           │
-                │            │  Math  │  Aggregator)        │
-                │            └───┬────┘                     │
-                │                │                          │
-                └────────────────┼──────────────────────────┘
-                                 ↓
-                        ┌────────────────┐
-                        │  Aggregator    │ ← Synthesizes final answer
-                        │  (Caches)      │
-                        └────────┬───────┘
-                                 ↓
-                          Final Answer
+### 🔢 Financial Math Agent
+Computes ratios, growth rates, comparisons, and aggregations from extracted numbers.
 
-```
+### ⚡ Similarity-Based Caching
+Repeated or similar questions are answered instantly from a cached-answer vector store.
 
-### Agent Responsibilities
+### 🧵 Thread-Aware Memory
+Every conversation has its own thread ID and persisted history.
 
-```
-┌──────────────────────────────────────────────────────────────┐
-│ Memory Agent                                                 │
-│ -  Query cache lookup using vector similarity                │
-│ -  Thread-aware conversation history                         │
-├──────────────────────────────────────────────────────────────┤
-│ Retriever Agent                                              │
-│ -  Document retrieval from Chroma vector store               │
-│ -  Semantic search with embeddings                           │
-├──────────────────────────────────────────────────────────────┤
-│ Validator Agent                                              │
-│ -  Intent classification (casual/informational/history)      │
-│ -  Query type detection (calculation/summary/general)        │
-│ -  Data relevance validation                                 │
-├──────────────────────────────────────────────────────────────┤
-│ WebSearch Agent                                              │
-│ -  External data retrieval via Tavily API                    │
-│ -  Fallback for insufficient document data                   │
-├──────────────────────────────────────────────────────────────┤
-│ Summarizer Agent                                             │
-│ -  Concise content summarization                             │
-│ -  Handles large document contexts                           │
-├──────────────────────────────────────────────────────────────┤
-│ Table Agent                                                  │
-│ -  Structured numeric data extraction                        │
-│ -  JSON formatting of financial metrics                      │
-├──────────────────────────────────────────────────────────────┤
-│ Math Agent                                                   │
-│ -  Financial calculations (ratios, growth rates, etc.)       │
-│ -  Comparative analysis                                      │
-├──────────────────────────────────────────────────────────────┤
-│ Aggregator Agent                                             │
-│ -  Final answer synthesis                                    │
-│ -  Error handling and user-friendly responses                │
-│ -  Query caching for future lookups                          │
-└──────────────────────────────────────────────────────────────┘
-```
+### 🔍 Agent Execution Trace
+The UI shows exactly which agents ran, in what order, and why.
+
+</td>
+</tr>
+</table>
 
 ---
 
-## 🚀 Installation
+## 🏗 Architecture & Workflow Diagrams
 
-### Prerequisites
+![section](https://img.shields.io/badge/-HOW%20IT%20WORKS-D97757?style=for-the-badge&labelColor=3D3929)
 
-- Python 3.9 or higher
-- pip package manager
-- API keys (GROQ, Tavily, Unstructured)
+### 1. High-Level System Architecture
 
-### Step 1: Clone the Repository
+```mermaid
+%%{init: {'theme':'base', 'themeVariables': {
+  'primaryColor': '#D97757',
+  'primaryTextColor': '#FAF9F5',
+  'primaryBorderColor': '#3D3929',
+  'lineColor': '#3D3929',
+  'secondaryColor': '#F0EEE6',
+  'tertiaryColor': '#FAF9F5'
+}}}%%
+flowchart TD
+    A[👤 User] -->|Uploads PDF| UI[Streamlit UI — app_streamlit.py]
+    A -->|Asks a question| UI
+
+    UI -->|New document| ING[ingest.py]
+    ING --> UNS[Unstructured API<br/>partition_pdf_flexible]
+    UNS --> VIS[Groq Vision<br/>chart / image analysis]
+    UNS --> ELEM[pdf_utils.py<br/>process_elements → chunked Documents]
+    VIS --> ELEM
+    ELEM --> EMB[HuggingFace Embeddings<br/>all-MiniLM-L6-v2]
+    EMB --> VDB[(ChromaDB<br/>vectorstore_final)]
+
+    UI -->|Question + thread_id| GRAPH[graph.py<br/>LangGraph Agent Swarm]
+    GRAPH <--> VDB
+    GRAPH <--> TAV[Tavily Web Search]
+    GRAPH <--> LLM[Groq LLM<br/>llama-3.3-70b-versatile]
+    GRAPH --> ANSWER[Final Answer + Trace]
+    ANSWER --> UI
+```
+
+### 2. Agent Swarm Routing — the heart of `graph.py`
+
+Every agent can hand off to almost any other agent — this is what makes it a *swarm* rather than a fixed pipeline. A hop-count safety limit (12 hops) forces a hard route to the Aggregator if the graph ever starts looping.
+
+```mermaid
+%%{init: {'theme':'base', 'themeVariables': {
+  'primaryColor': '#D97757',
+  'primaryTextColor': '#FAF9F5',
+  'primaryBorderColor': '#3D3929',
+  'lineColor': '#3D3929',
+  'secondaryColor': '#F0EEE6',
+  'tertiaryColor': '#FAF9F5'
+}}}%%
+flowchart TD
+    Start([User Query]) --> Memory{Memory Agent<br/>vector-similarity cache lookup}
+
+    Memory -->|Cache hit ~90% similarity| Aggregator
+    Memory -->|Cache miss| Retriever[Retriever Agent<br/>Chroma similarity search, k = 10]
+
+    Retriever --> Validator{Validator Agent<br/>intent + data-sufficiency check}
+
+    Validator -->|Casual / chit-chat| Aggregator
+    Validator -->|Data insufficient| WebSearch[WebSearch Agent<br/>Tavily API]
+    Validator -->|Needs numbers / calculation| Table[Table Agent<br/>extract numeric data as JSON]
+    Validator -->|Needs a summary| Summarizer[Summarizer Agent]
+    Validator -->|Data is sufficient| Aggregator
+
+    WebSearch --> Revalidate{Validator<br/>re-evaluate with web results}
+    Revalidate --> Table
+    Revalidate --> Summarizer
+    Revalidate --> Aggregator
+
+    Table --> Math[Math Agent<br/>ratios, growth %, comparisons]
+    Math --> Aggregator
+    Summarizer --> Aggregator
+
+    Aggregator[Aggregator Agent<br/>synthesizes answer + writes cache] --> End([Final Answer → Streamlit UI])
+```
+
+> 🛟 **Safety net:** any agent that exceeds **12 hops** is force-routed straight to the Aggregator, so the swarm can never loop forever.
+
+### 3. Document Ingestion Pipeline
+
+```mermaid
+%%{init: {'theme':'base', 'themeVariables': {
+  'primaryColor': '#D97757',
+  'primaryTextColor': '#FAF9F5',
+  'primaryBorderColor': '#3D3929',
+  'lineColor': '#3D3929',
+  'secondaryColor': '#F0EEE6',
+  'tertiaryColor': '#FAF9F5'
+}}}%%
+flowchart LR
+    PDF[📄 Uploaded PDF] --> PART[Unstructured API<br/>strategy: hi_res / fast]
+    PART --> TXT[Text & Title elements]
+    PART --> TBL[Table elements]
+    PART --> IMG[Image / Chart elements]
+
+    IMG --> GVIS[Groq Vision<br/>llama-4-scout-17b-16e-instruct]
+    GVIS --> STRUCT[Structured description<br/>of chart data]
+
+    TXT --> CHUNK[Chunking<br/>size 1000 / overlap 200]
+    TBL --> CHUNK
+    STRUCT --> CHUNK
+
+    CHUNK --> EMB[HuggingFace Embeddings]
+    EMB --> COLLECTION[(Chroma collection<br/>'langchain')]
+```
+
+### 4. A Single Query, Step by Step
+
+```mermaid
+%%{init: {'theme':'base', 'themeVariables': {
+  'primaryColor': '#F0EEE6',
+  'primaryTextColor': '#3D3929',
+  'primaryBorderColor': '#D97757',
+  'lineColor': '#D97757',
+  'actorBkg': '#D97757',
+  'actorTextColor': '#FAF9F5',
+  'actorBorder': '#3D3929',
+  'signalColor': '#3D3929',
+  'signalTextColor': '#3D3929',
+  'labelBoxBkgColor': '#F0EEE6',
+  'labelTextColor': '#3D3929',
+  'noteBkgColor': '#FAF9F5',
+  'noteTextColor': '#3D3929',
+  'noteBorderColor': '#D97757'
+}}}%%
+sequenceDiagram
+    participant U as User
+    participant S as Streamlit UI
+    participant G as LangGraph Swarm
+    participant C as ChromaDB
+    participant T as Tavily
+    participant L as Groq LLM
+
+    U->>S: "What was Q1 revenue?"
+    S->>G: graph_app.invoke(query, thread_id)
+    G->>G: Memory Agent checks similarity cache
+
+    alt Cache hit
+        G->>S: Return cached answer instantly
+    else Cache miss
+        G->>C: Retriever — similarity search (k=10)
+        C-->>G: Top-10 relevant chunks
+        G->>L: Validator — classify intent & check sufficiency
+        L-->>G: casual / needs-calc / needs-summary / sufficient
+        opt Document data insufficient
+            G->>T: WebSearch query
+            T-->>G: Web results
+        end
+        G->>L: Table / Summarizer / Math agent(s) run as needed
+        L-->>G: Structured numbers / summary / calculation
+        G->>L: Aggregator — synthesize final natural-language answer
+        L-->>G: Final answer
+        G->>C: Cache the new answer for next time
+        G->>S: Return answer + full agent trace
+    end
+
+    S->>U: Display answer, cache badge, and agent trace
+```
+
+---
+
+## 🛠 Tech Stack
+
+![section](https://img.shields.io/badge/-BUILT%20WITH-D97757?style=for-the-badge&labelColor=3D3929)
+
+<p align="left">
+  <img src="https://img.shields.io/badge/LangGraph-Orchestration-D97757?style=flat-square&labelColor=3D3929"/>
+  <img src="https://img.shields.io/badge/LangChain-LLM%20Abstraction-D97757?style=flat-square&labelColor=3D3929"/>
+  <img src="https://img.shields.io/badge/GROQ-LLM%20%2B%20Vision-D97757?style=flat-square&labelColor=3D3929"/>
+  <img src="https://img.shields.io/badge/ChromaDB-Vector%20Store-D97757?style=flat-square&labelColor=3D3929"/>
+  <br/>
+  <img src="https://img.shields.io/badge/HuggingFace-Embeddings-D97757?style=flat-square&labelColor=3D3929"/>
+  <img src="https://img.shields.io/badge/Tavily-Web%20Search-D97757?style=flat-square&labelColor=3D3929"/>
+  <img src="https://img.shields.io/badge/Unstructured.io-PDF%20Parsing-D97757?style=flat-square&labelColor=3D3929"/>
+  <img src="https://img.shields.io/badge/Streamlit-UI-D97757?style=flat-square&labelColor=3D3929"/>
+  <img src="https://img.shields.io/badge/Pandas-Data-D97757?style=flat-square&labelColor=3D3929"/>
+</p>
+
+| Layer | Technology |
+|---|---|
+| Orchestration | **LangGraph** (StateGraph + MemorySaver checkpointing) |
+| LLM Abstraction | **LangChain** |
+| LLM Inference | **GROQ** — `llama-3.3-70b-versatile` (text), `meta-llama/llama-4-scout-17b-16e-instruct` (vision) |
+| Vector Database | **ChromaDB** (`PersistentClient`, on-disk) |
+| Embeddings | **HuggingFace** `all-MiniLM-L6-v2` |
+| Web Search | **Tavily API** |
+| PDF Parsing | **Unstructured.io** (`hi_res` / `fast`) |
+| UI | **Streamlit** |
+| Data Handling | **Pandas** |
+| Config | **python-dotenv** |
+
+---
+
+## 📁 Project Structure
+
+![section](https://img.shields.io/badge/-PROJECT%20STRUCTURE-D97757?style=for-the-badge&labelColor=3D3929)
 
 ```
-git clone https://github.com/Aditya-ad48/INTERIIT-NLP-Prepathon.git
-cd INTERIIT-NLP-Prepathon
+Financial--QA/
+│
+├── agents/
+│   ├── memory_agent.py        # Cache lookup + conversation history
+│   ├── retriever_agent.py     # Chroma vector search
+│   ├── validator_agent.py     # Intent classification & routing logic
+│   ├── websearch_agent.py     # Tavily web search fallback
+│   ├── summarizer_agent.py    # Content summarization
+│   ├── table_agent.py         # Structured numeric data extraction
+│   ├── math_agent.py          # Financial calculations
+│   └── aggregator_agent.py    # Final answer synthesis + caching
+│
+├── app_streamlit.py           # Streamlit chat UI, upload flow, sidebar
+├── graph.py                   # LangGraph StateGraph build + routing + hop-limit safety
+├── ingest.py                  # PDF → chunks → embeddings → ChromaDB pipeline
+├── chroma_client.py           # Shared/singleton ChromaDB client
+├── pdf_utils.py                # Unstructured partitioning + element processing + Groq Vision
+├── models.py                  # Pydantic / TypedDict state models
+├── decorators.py               # Retry logic, error-handling decorators
+├── config.py                  # Env vars, model names, paths
+├── utils.py                    # Misc helper functions
+├── requirements.txt
+├── .gitignore
+└── README.md
 ```
 
-### Step 2: Create Virtual Environment
+---
 
+## 🚀 Getting Started
+
+![section](https://img.shields.io/badge/-STEP%20BY%20STEP%20SETUP-D97757?style=for-the-badge&labelColor=3D3929)
+
+### 1️⃣ Prerequisites
+- Python **3.9+**
+- `pip`
+- Free accounts with **GROQ**, **Tavily**, and **Unstructured.io**
+
+### 2️⃣ Clone the Repository
+```bash
+git clone https://github.com/Invicta0305/Financial--QA.git
+cd Financial--QA
 ```
-# Create virtual environment
+
+### 3️⃣ Create a Virtual Environment
+```bash
 python -m venv finance_env
 
 # Activate (Mac/Linux)
@@ -246,548 +362,267 @@ source finance_env/bin/activate
 finance_env\Scripts\activate
 ```
 
-### Step 3: Install Dependencies
-
-```
+### 4️⃣ Install Dependencies
+```bash
 pip install -r requirements.txt
 ```
 
-### Step 4: Set Up Environment Variables
+### 5️⃣ Get Your API Keys *(all required)*
 
-Create a `.env` file in the project root:
+<table>
+<tr><td width="33%" valign="top">
 
-```
+#### 🟠 GROQ
+*(LLM + vision inference)*
+
+1. Go to [console.groq.com](https://console.groq.com)
+2. Sign up / log in
+3. Open **API Keys**
+4. Click **Create API Key**
+5. Copy it immediately — shown once
+
+</td><td width="33%" valign="top">
+
+#### 🔵 Tavily
+*(web search fallback)*
+
+1. Go to [app.tavily.com](https://app.tavily.com)
+2. Sign up for free
+3. Key shown right on the dashboard
+4. Also under **API Keys** in settings
+
+</td><td width="33%" valign="top">
+
+#### 🟤 Unstructured
+*(PDF parsing)*
+
+1. Go to [unstructured.io](https://unstructured.io)
+2. Sign up for API access
+3. Find your key in the dashboard
+4. Used for layout-aware PDF parsing
+
+</td></tr>
+</table>
+
+> 💡 All three have free tiers that are enough for personal projects — check each provider's pricing page for current limits.
+
+### 6️⃣ Configure Environment Variables
+
+```bash
 cp .env.example .env
 ```
 
-Edit `.env` and add your API keys:
-
-```
+```env
 GROQ_API_KEY=your_groq_api_key_here
 TAVILY_API_KEY=your_tavily_api_key_here
 UNSTRUCTURED_API_KEY=your_unstructured_api_key_here
 ```
 
-**Get API Keys:**
-- **GROQ**: [console.groq.com](https://console.groq.com) - For LLM inference
-- **Tavily**: [app.tavily.com](https://app.tavily.com) - For web search
-- **Unstructured**: [unstructured.io](https://unstructured.io) - For advanced PDF parsing
+> ⚠️ Never commit your `.env` file — confirm it's listed in `.gitignore` before pushing.
 
-### Step 5: Prepare Document Store
+### 7️⃣ Run the App
 
-```
-# Create directory for PDFs
+**Option A — Ingest via CLI, then launch:**
+```bash
 mkdir -p data
-
-# Add your financial documents (PDFs) to the data/ folder
-# Example: data/financial_report_q1.pdf
-
-# Ingest documents into vector store
+# drop your PDF(s) into data/
 python ingest.py
-```
-
----
-
-## 💻 Usage
-
-### Running the Application
-
-```
 streamlit run app_streamlit.py
 ```
 
-The application will open in your browser at `http://localhost:8501`
-
-### Using the Interface
-
-1. **Upload Documents** (optional)
-   - Click "Browse files" to upload PDF documents
-   - Documents are processed and added to the vector store
-
-2. **Ask Questions**
-   - Type your query in the chat input
-   - Examples:
-     - "What was the Q1 revenue?"
-     - "Calculate the profit margin for 2024"
-     - "Compare expenses between Q1 and Q2"
-     - "Summarize the risk factors"
-
-3. **View Results**
-   - See the agent execution trace
-   - Get comprehensive answers with sources
-   - Cached responses load instantly for repeated queries
-
-### Example Queries
-
-**Financial Analysis:**
-```
-"What is the total revenue for Q1 2024?"
-"Calculate the year-over-year growth rate"
-"Compare operating expenses between quarters"
+**Option B — Upload directly from the UI:**
+```bash
+streamlit run app_streamlit.py
 ```
 
-**Document Summarization:**
-```
-"Summarize the key risks mentioned in the report"
-"Give me an overview of the financial performance"
-```
+The app opens at `http://localhost:8501` 🎉
 
-**Casual Interaction:**
+---
+
+## 💻 Using the Application
+
+![section](https://img.shields.io/badge/-HOW%20TO%20USE%20IT-D97757?style=for-the-badge&labelColor=3D3929)
+
+| Step | Action |
+|---|---|
+| 1️⃣ | **Upload** — sidebar → *Upload PDF Document* → choose file → *Process Document* |
+| 2️⃣ | **Ask** — type a question like *"What was the total revenue for Q1 2024?"* |
+| 3️⃣ | **Inspect** — expand *"🔍 View Agent Execution Trace"* to see exactly which agents ran |
+| 4️⃣ | **Manage** — start new conversations, switch threads, or clear chat from the sidebar |
+| 5️⃣ | **Control caching** — bypass cache for a fresh answer, or clear it entirely |
+| 6️⃣ | **Reset** — *"🔄 Reset Vector"* clears the current document so you can start fresh |
+
+**Try asking:**
 ```
-"Hello"
-"Thank you"
-"What did I ask earlier?"
+"What was the total revenue for Q1 2024?"
+"Calculate the year-over-year profit margin."
+"Compare operating expenses between Q1 and Q2."
+"Summarize the key risk factors."
 ```
 
 ---
 
-## 🤖 Agent Descriptions
+## 🤖 Agent Reference
 
-### 1. Memory Agent
-**Purpose**: Query cache and conversation history management
+![section](https://img.shields.io/badge/-MEET%20THE%20AGENTS-D97757?style=for-the-badge&labelColor=3D3929)
 
-- Searches cache using vector similarity
-- Returns cached answers for duplicate queries
-- Maintains thread-aware conversation history
-- Reduces latency and API costs
-
-**Handoffs**: → Retriever (on cache miss)
-
----
-
-### 2. Retriever Agent
-**Purpose**: Document retrieval from vector store
-
-- Semantic search using HuggingFace embeddings
-- Retrieves top-k relevant document chunks
-- Validates document quality
-- Fallback to WebSearch on failure
-
-**Handoffs**: → Validator (always)
+| # | Agent | Responsibility | Hands off to |
+|---|---|---|---|
+| 1 | 🧠 **Memory** | Vector-similarity cache lookup, conversation history | Retriever (miss) / Aggregator (hit) |
+| 2 | 📚 **Retriever** | Semantic search over the document's ChromaDB collection | Validator |
+| 3 | 🧭 **Validator** | Classifies intent & query type; checks data sufficiency | WebSearch / Table / Summarizer / Aggregator |
+| 4 | 🌐 **WebSearch** | Falls back to Tavily when document data is insufficient | Validator (re-evaluation) |
+| 5 | 📝 **Summarizer** | Produces concise natural-language summaries | Aggregator |
+| 6 | 🔢 **Table** | Extracts structured numeric data as JSON | Math / Aggregator |
+| 7 | ➗ **Math** | Growth rates, ratios, comparisons, aggregations | Aggregator |
+| 8 | 🎯 **Aggregator** | Synthesizes the final answer, writes it to cache | `END` |
 
 ---
 
-### 3. Validator Agent
-**Purpose**: Intent classification and routing orchestration
+## ⚙️ Configuration Reference
 
-**Three-tier classification:**
-1. **Intent Classification**: Casual vs Informational vs History
-2. **Query Type Detection**: Calculation vs Summary vs General
-3. **Data Relevance Validation**: Ensures data can answer query
+![section](https://img.shields.io/badge/-CONFIGURATION-D97757?style=for-the-badge&labelColor=3D3929)
 
-**Handoffs**: → WebSearch | Summarizer | Table | Aggregator
+<details>
+<summary><b>Click to expand config.py options</b></summary>
 
----
-
-### 4. WebSearch Agent
-**Purpose**: External data retrieval
-
-- Tavily API integration for web search
-- Fallback when documents are insufficient
-- Returns relevant web content
-- Handles API errors gracefully
-
-**Handoffs**: → Validator (for assessment)
-
----
-
-### 5. Summarizer Agent
-**Purpose**: Content summarization
-
-- Generates concise summaries
-- Handles large contexts (30K+ chars)
-- Extracts key points
-- Uses LLM for natural language generation
-
-**Handoffs**: → Aggregator (always)
-
----
-
-### 6. Table Agent
-**Purpose**: Structured data extraction
-
-- Extracts numeric data (revenue, expenses, ratios)
-- Formats as JSON with metadata
-- Preserves temporal context (periods)
-- Identifies calculation requirements
-
-**Handoffs**: → Math | Aggregator
-
----
-
-### 7. Math Agent
-**Purpose**: Financial calculations
-
-**Capabilities:**
-- Comparisons (Q1 vs Q2)
-- Growth rates & percentage changes
-- Financial ratios (profit margin, etc.)
-- Aggregations (totals, averages)
-- Step-by-step calculation breakdown
-
-**Handoffs**: → Aggregator (always)
-
----
-
-### 8. Aggregator Agent
-**Purpose**: Final answer synthesis
-
-- Combines information from all sources
-- Generates natural language responses
-- Handles error cases gracefully
-- Caches answers for future queries
-- Responds to casual queries directly
-
-**Handoffs**: → END (terminal node)
-
----
-
-## 📄 PDF Processing Pipeline
-
-### Unstructured API Integration
-
-This system uses **Unstructured.io** for advanced PDF document processing, enabling robust extraction of text, tables, and structured data from financial documents.
-
-### Processing Flow
-
-```
-PDF Upload
-    ↓
-┌───────────────────────────┐
-│  Unstructured API         │
-│  -  Text extraction       │
-│  -  Table detection       │
-│  -  Layout analysis       │
-│  -  Element classification│
-└──────────┬────────────────┘
-           ↓
-┌───────────────────────────┐
-│  Document Chunking        │
-│  -  Semantic segmentation │
-│  -  Overlap handling      │
-│  -  Metadata preservation │
-└──────────┬────────────────┘
-           ↓
-┌───────────────────────────┐
-│  Vector Store (Chroma)    │
-│  -  Embedding generation  │
-│  -  Index creation        │
-│  -  Semantic search ready │
-└───────────────────────────┘
-```
-
-### Why Unstructured API?
-
-| Feature | Benefit |
-|---------|---------|
-| **Multi-format Support** | Handles PDFs, images, tables seamlessly |
-| **Layout Preservation** | Maintains document structure and hierarchy |
-| **Table Extraction** | Accurately extracts financial tables and data |
-| **Cloud-based** | Scalable processing without local dependencies |
-| **OCR Support** | Handles scanned documents |
-
-### Usage in Code
-
-```
-# pdf_utils.py
-from unstructured_client import UnstructuredClient
-from config import UNSTRUCTURED_API_KEY
-
-client = UnstructuredClient(api_key_auth=UNSTRUCTURED_API_KEY)
-
-# Process PDF with advanced parsing
-elements = partition_pdf_flexible(
-    filename=pdf_path,
-    strategy="hi_res",  # High-resolution mode
-    extract_images=False
-)
-
-# Elements include text, tables, titles, etc.
-documents = process_elements(elements)
-```
-
-### Configuration
-
-Edit `config.py` to customize PDF processing:
-
-```
-# PDF Processing Settings
-UNSTRUCTURED_STRATEGY = "hi_res"  # or "fast" for speed
-CHUNK_SIZE = 1000
-CHUNK_OVERLAP = 200
-```
-
----
-
-## 📊 Chart & Image Analysis with Groq Vision
-
-### Multimodal Document Understanding
-
-This system uses **Groq's Vision API** (`meta-llama/llama-4-scout-17b-16e-instruct`) to extract structured data from charts, graphs, and images embedded in financial PDFs.
-
-### How It Works
-
-```
-PDF Document
-    ↓
-┌─────────────────────────────┐
-│ Unstructured API            │
-│ - Detects images/charts     │
-│ - Extracts as base64        │
-│ - Identifies element types  │
-└──────────┬──────────────────┘
-           ↓
-┌─────────────────────────────┐
-│ Groq Vision API             │
-│ Model: llama-4-scout-17b    │
-│ - Analyzes image content    │
-│ - Extracts numeric data     │
-│ - Identifies trends         │
-└──────────┬──────────────────┘
-           ↓
-┌─────────────────────────────┐
-│ Structured Text Output      │
-│ - Chart titles              │
-│ - Data points with labels   │
-│ - Axis information          │
-│ - Annotations               │
-└─────────────────────────────┘
-```
-
-### Vision Extraction Capabilities
-
-The `analyze_chart_with_groq()` function extracts:
-
-| Element Type       | Extracted Information                   |
-|--------------------|----------------------------------------|
-| **Bar Charts**     | Values, labels, comparisons            |
-| **Line Graphs**    | Trends, data points, time series       |
-| **Pie Charts**     | Percentages, category breakdowns       |
-| **Financial Tables** | Row/column headers, numeric values   |
-| **Diagrams**       | Annotations, relationships             |
-| **Mixed Visuals**  | Text overlays, legends                 |
-
-Vision analysis is **automatically triggered** during PDF ingestion when the Unstructured API detects visual elements:
-
-### Vision API Configuration
-
-**Model Details**:
-- **Model**: `meta-llama/llama-4-scout-17b-16e-instruct`
-- **Context Window**: 16K tokens
-- **Max Output**: 2048 tokens
-- **Temperature**: 0 (deterministic)
-- **Image Size Limit**: 5MB
-
-**Usage Limits**:
-- GROQ free tier: Shared with text inference quota
-- Image processing: ~2-4 seconds per chart
-- Automatic fallback: If vision fails, uses text extraction
-
-### Advantages Over OCR
-
-| Traditional OCR           | Groq Vision (LLM-based)         |
-|--------------------------|---------------------------------|
-| Extracts raw text only   | Understands context & structure |
-| Misses chart relationships| Identifies trends & patterns   |
-| No numeric interpretation | Extracts labeled data points   |
-| Fails on complex layouts | Handles multi-element visuals   |
----
-
-## 📁 Project Structure
-
-```
-INTERIIT-NLP-Prepathon/
-│
-├── agents/                      # Agent implementations
-│   ├── __init__.py
-│   ├── memory_agent.py         # Cache & conversation history
-│   ├── retriever_agent.py      # Document retrieval
-│   ├── validator_agent.py      # Intent classification & routing
-│   ├── websearch_agent.py      # External data retrieval
-│   ├── summarizer_agent.py     # Content summarization
-│   ├── table_agent.py          # Data extraction
-│   ├── math_agent.py           # Financial calculations
-│   └── aggregator_agent.py     # Answer synthesis
-│
-├── config.py                    # Configuration & environment variables
-├── models.py                    # Pydantic models & type definitions
-├── decorators.py                # Error handling & retry logic
-├── utils.py                     # Utility functions
-├── pdf_utils.py                 # PDF processing utilities
-│
-├── graph.py                     # LangGraph orchestration
-├── ingest.py                    # Document ingestion pipeline
-├── app_streamlit.py             # Streamlit web interface
-│
-├── .env.example                 # Environment variables template
-├── .gitignore                   # Git ignore rules
-├── requirements.txt             # Python dependencies
-└── README.md                    # This file
-```
-
----
-
-## ⚙️ Configuration
-
-### Environment Variables
-
-| Variable | Description | Required |
-|----------|-------------|----------|
-| `GROQ_API_KEY` | GROQ LLM API key for inference | ✅ Yes |
-| `TAVILY_API_KEY` | Tavily search API key for web search | ✅ Yes |
-| `UNSTRUCTURED_API_KEY` | Unstructured API key for PDF processing | ✅ Yes |
-
-### Configurable Parameters
-
-Edit `config.py` to customize:
-
-```
+```python
 # LLM Configuration
 LLM_MODEL = "llama-3.3-70b-versatile"
-and "openai/gpt-oss-120b"
 EMBEDDING_MODEL = "all-MiniLM-L6-v2"
 
 # Vector Store
 DEFAULT_DB_PATH = "vectorstore_final"
 
 # Retrieval Settings
-RETRIEVAL_K = 10  # Number of documents to retrieve
+RETRIEVAL_K = 10          # number of chunks retrieved per query
 
 # Timeouts
-AGENT_TIMEOUT = 30  # seconds
+AGENT_TIMEOUT = 30        # seconds, per agent call
 
-# PDF Processing Settings
-UNSTRUCTURED_STRATEGY = "hi_res"  # or "fast" for speed
+# PDF Processing
+UNSTRUCTURED_STRATEGY = "hi_res"   # or "fast" for quicker, lower-fidelity parsing
 CHUNK_SIZE = 1000
 CHUNK_OVERLAP = 200
 
-# Vision API Settings
+# Vision API
 VISION_MODEL = "meta-llama/llama-4-scout-17b-16e-instruct"
-MAX_IMAGE_SIZE = 5000000  # 5MB
-VISION_MAX_WORKERS = 4  # Parallel image processing
+MAX_IMAGE_SIZE = 5_000_000   # 5MB
 VISION_TEMPERATURE = 0
 VISION_MAX_TOKENS = 2048
+```
 
-# Unstructured API configuration
-EXTRACT_IMAGE_TYPES = ["Image", "Table"]  # Element types to extract
-PARALLEL_WORKERS = 4  # Concurrent element processing
+| Variable | Where it's read | Required |
+|---|---|---|
+| `GROQ_API_KEY` | `config.py` | ✅ Yes |
+| `TAVILY_API_KEY` | `agents/websearch_agent.py` | ✅ Yes |
+| `UNSTRUCTURED_API_KEY` | `config.py` | ✅ Yes |
+
+</details>
+
+---
+
+## 🧩 Vector Store Architecture Notes
+
+![section](https://img.shields.io/badge/-WHY%20CHROMA__CLIENT.PY%20LOOKS%20LIKE%20THIS-D97757?style=for-the-badge&labelColor=3D3929)
+
+ChromaDB keeps its own internal, library-level cache of `System` objects, keyed by the persistence directory path — separate from anything an application builds on top of it. Earlier versions of this project deleted the on-disk vectorstore folder and created a brand-new `PersistentClient` on every ingest, which could desync chromadb's internal cache from what was actually on disk, producing:
+
+```
+ValueError: Could not connect to tenant default_tenant. Are you sure it exists?
+```
+
+**The fix:** exactly **one** `PersistentClient` is created per process and lives for the app's entire lifetime. Re-ingesting a document no longer deletes the directory or spins up a new client — it just clears and rebuilds the **collection** via `reset_collection()` in `chroma_client.py`.
+
+```mermaid
+%%{init: {'theme':'base', 'themeVariables': {
+  'primaryColor': '#D97757',
+  'primaryTextColor': '#FAF9F5',
+  'primaryBorderColor': '#3D3929',
+  'lineColor': '#3D3929',
+  'secondaryColor': '#F0EEE6',
+  'tertiaryColor': '#FAF9F5'
+}}}%%
+flowchart LR
+    subgraph Before["❌ Before — fragile"]
+        A1[New upload] --> A2[Delete folder]
+        A2 --> A3[New PersistentClient]
+        A3 --> A4[Tenant mismatch]
+    end
+
+    subgraph After["✅ After — stable"]
+        B1[New upload] --> B2[reset_collection]
+        B2 --> B3[Same singleton client]
+        B3 --> B4[Clean collection rebuild]
+    end
 ```
 
 ---
 
-## 🛠️ Technologies Used
+## 🩺 Troubleshooting
 
-### Core Frameworks
-- **LangGraph**: Multi-agent orchestration and state management
-- **LangChain**: LLM abstraction and RAG pipeline
-- **Streamlit**: Web interface
+![section](https://img.shields.io/badge/-TROUBLESHOOTING-D97757?style=for-the-badge&labelColor=3D3929)
 
-### AI & ML
-- **GROQ**: High-performance LLM inference
-  - Text: `llama-3.3-70b-versatile` & `openai/gpt-oss-120b`
-  - Vision: `meta-llama/llama-4-scout-17b-16e-instruct`
-- **Chroma**: Vector database for semantic search
-- **HuggingFace**: Embedding models (`all-MiniLM-L6-v2`)
+<details>
+<summary><b>Click to expand common issues & fixes</b></summary>
 
-### APIs
-- **Tavily**: Web search API for real-time external data
-- **Unstructured**: Advanced PDF parsing with image/chart detection
-- **GROQ Vision**: Multimodal chart and image analysis
+| Symptom | Likely cause | Fix |
+|---|---|---|
+| `GROQ_API_KEY not configured` | `.env` missing or not loaded | Confirm `.env` exists in the project root and `python-dotenv` is installed |
+| `Could not connect to tenant default_tenant` | Stale/duplicate ChromaDB clients on the same directory | Use the singleton-client `chroma_client.py` / `ingest.py`; fully restart the Streamlit process, not just `st.rerun()` |
+| App answers about a previously uploaded document | An old ingest didn't fully complete/replace the collection | Use **Reset Vector**, then re-upload |
+| PDF processing is very slow | `UNSTRUCTURED_STRATEGY = "hi_res"` | Switch to `"fast"` in `config.py` |
+| `GraphRecursionError` / agent loop never ends | Agents kept handing off in a cycle | Already capped by the 12-hop safety cutoff in `graph.py` |
+| Web search results never show up | Missing/invalid `TAVILY_API_KEY` | Double-check the key and your Tavily dashboard quota |
+| Vision/chart extraction returns nothing | Image > `MAX_IMAGE_SIZE` (5MB) or vision call failed | Check logs — `pdf_utils.py` falls back to text-only extraction automatically |
 
-### Data Processing
-- **Pandas**: Data manipulation and table parsing
-- **PyPDF**: PDF document handling
-- **Base64**: Image encoding for vision API
+</details>
 
 ---
 
-## 🎓 Learning Resources
+## 🗺 Roadmap
 
-This project demonstrates:
+![section](https://img.shields.io/badge/-WHAT'S%20NEXT-D97757?style=for-the-badge&labelColor=3D3929)
 
-- **LangGraph State Management**: Persistent conversation state
-- **Multi-Agent Coordination**: Autonomous agent handoffs
-- **RAG Architecture**: Retrieval-augmented generation
-- **Intent Classification**: LLM-based query understanding
-- **Error Handling**: Production-grade fault tolerance
-- **Caching Strategies**: Vector similarity-based cache
-
----
-
-## 📊 Performance
-
-- **Average Response Time**: 2-5 seconds (first query)
-- **Cache Hit Response**: < 0.5 seconds
-- **Document Retrieval**: ~1 second for 10 documents
-- **Web Search Fallback**: 2-3 seconds
+- [ ] Multi-document support (query across several uploaded PDFs at once)
+- [ ] Persist conversation/cache state in a real database
+- [ ] Docker Compose setup for one-command deployment
+- [ ] Authentication for multi-user deployments
+- [ ] Benchmark alternative embedding models
 
 ---
 
 ## 🤝 Contributing
 
-Contributions welcome! Please:
+![section](https://img.shields.io/badge/-CONTRIBUTING-D97757?style=for-the-badge&labelColor=3D3929)
 
 1. Fork the repository
-2. Create a feature branch
-3. Make your changes
-4. Submit a pull request
+2. Create a feature branch: `git checkout -b feature/your-feature`
+3. Commit your changes
+4. Open a pull request describing what changed and why
 
 ---
 
 ## 📝 License
 
-This project is licensed under the MIT License.
+![section](https://img.shields.io/badge/-LICENSE-D97757?style=for-the-badge&labelColor=3D3929)
 
----
-
-## 👨‍💻 Author
-
-**Aditya Ahirwar**
-- GitHub: [@Aditya-ad48](https://github.com/Aditya-ad48)
-- Email: adityaraj13.ahirwar@gmail.com
+No license file is currently included. If you intend to share or distribute this project, consider adding a `LICENSE` file — MIT is a common, permissive choice.
 
 ---
 
 ## 🙏 Acknowledgments
 
-- **LangChain Team** for LangGraph framework
-- **GROQ** for high-performance LLM inference
-- **Tavily** for web search capabilities
-- **Unstructured.io** for advanced PDF processing
+![section](https://img.shields.io/badge/-ACKNOWLEDGMENTS-D97757?style=for-the-badge&labelColor=3D3929)
 
----
+- **LangChain / LangGraph** — multi-agent orchestration framework
+- **GROQ** — high-performance LLM and vision inference
+- **Tavily** — real-time web search API
+- **Unstructured.io** — layout-aware PDF parsing
+- **Streamlit** — the web UI framework powering the chat interface
 
+<p align="center">
+  <img src="https://capsule-render.vercel.app/api?type=waving&color=0:8B5E3C,100:D97757&height=150&section=footer&animation=fadeIn" width="100%"/>
+</p>
 
-## 📚 Research Papers & Foundations
-
-This project implements concepts from the following research papers:
-
-### Core Architecture
-
-1. **Retrieval-Augmented Generation (RAG)**
-   - Lewis et al. (2020). "Retrieval-Augmented Generation for Knowledge-Intensive NLP Tasks"
-   - Meta AI Research
-   - [arXiv:2005.11401](https://arxiv.org/abs/2005.11401)
-   - **Implementation**: Document retrieval with Chroma vector store + LLM generation
-
-2. **LangGraph Multi-Agent Orchestration**
-   - Duan & Wang (2024). "Exploration of LLM Multi-Agent Application Implementation Based on LangGraph+CrewAI"
-   - [arXiv:2411.18241](https://arxiv.org/html/2411.18241v1)
-   - **Implementation**: StateGraph with 8 specialized agents and conditional routing
-
-### Supporting Concepts
-
-3. **Swarm Intelligence for Coordination**
-   - Gnanamani & Kumaravel (2025). "Coordination and Collaboration in Multi-Agent Autonomous Systems: A Swarm Intelligence Approach"
-   - **Implementation**: Decentralized agent decision-making and autonomous handoffs
-
-4. **Advanced RAG Techniques**
-   - Gao et al. (2023). "Retrieval-Augmented Generation for Large Language Models: A Survey"
-   - [arXiv:2312.10997](https://arxiv.org/abs/2312.10997)
-   - **Implementation**: Thread-aware caching, semantic similarity search
-
-- **State Persistence**: LangGraph checkpointing with MemorySaver
-
----
-#   F i n a n c i a l - - Q A  
- 
+<p align="center"><sub>Made with 🧡 — if this helped you, consider giving the repo a ⭐</sub></p>
