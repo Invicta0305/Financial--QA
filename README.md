@@ -1,34 +1,17 @@
 <p align="center">
-  <img src="https://capsule-render.vercel.app/api?type=waving&color=0:D97757,100:8B5E3C&height=260&section=header&text=Financial--QA&fontSize=66&fontColor=FAF9F5&animation=fadeIn&fontAlignY=35&desc=Multi-Agent%20Q%26A%20for%20Financial%20Documents&descAlignY=58&descSize=20&fontColorDesc=FAF9F5" width="100%"/>
+  <img src="https://capsule-render.vercel.app/api?type=waving&color=0:1A6FA8,100:13293D&height=260&section=header&text=Financial--QA&fontSize=66&fontColor=FAF9F5&animation=fadeIn&fontAlignY=35&desc=Multi-Agent%20Q%26A%20for%20Financial%20Documents&descAlignY=58&descSize=20&fontColorDesc=FAF9F5" width="100%"/>
 </p>
 
 <p align="center">
-  <img src="https://readme-typing-svg.demolab.com/?font=Fira+Code&weight=600&size=20&duration=3000&pause=800&color=D97757&center=true&vCenter=true&width=720&lines=Upload+a+financial+PDF.+Ask+anything.;8+autonomous+agents+do+the+rest.;Powered+by+LangGraph+%2B+GROQ+%2B+ChromaDB." alt="Typing SVG" />
+  <img src="https://readme-typing-svg.demolab.com/?font=Fira+Code&weight=600&size=20&duration=3000&pause=800&color=1A6FA8&center=true&vCenter=true&width=720&lines=Upload+a+financial+PDF.+Ask+anything.;8+autonomous+agents+do+the+rest.;Powered+by+LangGraph+%2B+GROQ+%2B+ChromaDB." alt="Typing SVG" />
 </p>
 
 <p align="center">
-  <img src="https://img.shields.io/badge/Python-3.9+-D97757?style=for-the-badge&logo=python&logoColor=FAF9F5&labelColor=3D3929" />
-  <img src="https://img.shields.io/badge/LangGraph-Multi--Agent-D97757?style=for-the-badge&labelColor=3D3929" />
-  <img src="https://img.shields.io/badge/Streamlit-UI-D97757?style=for-the-badge&logo=streamlit&logoColor=FAF9F5&labelColor=3D3929" />
-  <img src="https://img.shields.io/badge/ChromaDB-VectorStore-D97757?style=for-the-badge&labelColor=3D3929" />
-  <br/>
-  <img src="https://img.shields.io/github/stars/Invicta0305/Financial--QA?style=for-the-badge&color=D97757&labelColor=3D3929" />
-  <img src="https://img.shields.io/github/last-commit/Invicta0305/Financial--QA?style=for-the-badge&color=D97757&labelColor=3D3929" />
-  <img src="https://img.shields.io/badge/status-active-D97757?style=for-the-badge&labelColor=3D3929" />
+  <img src="https://img.shields.io/badge/Python-3.9+-1A6FA8?style=for-the-badge&logo=python&logoColor=FAF9F5&labelColor=13293D" /> <img src="https://img.shields.io/badge/LangGraph-Multi--Agent-1A6FA8?style=for-the-badge&labelColor=13293D" /> <img src="https://img.shields.io/badge/Streamlit-UI-1A6FA8?style=for-the-badge&logo=streamlit&logoColor=FAF9F5&labelColor=13293D" /> <img src="https://img.shields.io/badge/ChromaDB-VectorStore-1A6FA8?style=for-the-badge&labelColor=13293D" />
 </p>
-
 <p align="center">
-  <a href="#-overview"><img src="https://img.shields.io/badge/Overview-FAF9F5?style=flat-square&labelColor=D97757"/></a>
-  <a href="#-key-features"><img src="https://img.shields.io/badge/Features-FAF9F5?style=flat-square&labelColor=D97757"/></a>
-  <a href="#-architecture--workflow-diagrams"><img src="https://img.shields.io/badge/Architecture-FAF9F5?style=flat-square&labelColor=D97757"/></a>
-  <a href="#-tech-stack"><img src="https://img.shields.io/badge/Tech%20Stack-FAF9F5?style=flat-square&labelColor=D97757"/></a>
-  <a href="#-getting-started"><img src="https://img.shields.io/badge/Setup-FAF9F5?style=flat-square&labelColor=D97757"/></a>
-  <a href="#-using-the-application"><img src="https://img.shields.io/badge/Usage-FAF9F5?style=flat-square&labelColor=D97757"/></a>
-  <a href="#-agent-reference"><img src="https://img.shields.io/badge/Agents-FAF9F5?style=flat-square&labelColor=D97757"/></a>
-  <a href="#-troubleshooting"><img src="https://img.shields.io/badge/Troubleshooting-FAF9F5?style=flat-square&labelColor=D97757"/></a>
+  <img src="https://img.shields.io/github/stars/Invicta0305/Financial--QA?style=for-the-badge&color=1A6FA8&labelColor=13293D" /> <img src="https://img.shields.io/github/last-commit/Invicta0305/Financial--QA?style=for-the-badge&color=1A6FA8&labelColor=13293D" /> <img src="https://img.shields.io/badge/status-active-1A6FA8?style=for-the-badge&labelColor=13293D" />
 </p>
-
-<p align="center"><i>📸 — drop a screenshot or short demo GIF of the Streamlit UI right here once you have one —</i></p>
 
 ---
 
@@ -54,7 +37,7 @@
 
 ## 🎯 Overview
 
-![section](https://img.shields.io/badge/-WHAT%20IS%20THIS%3F-D97757?style=for-the-badge&labelColor=3D3929)
+![section](https://img.shields.io/badge/-WHAT%20IS%20THIS%3F-1A6FA8?style=for-the-badge&labelColor=13293D)
 
 > Drop in a financial document — a 10-K, an earnings report, an investor deck — and just **ask it questions** in plain English. Revenue, margins, YoY growth, risk summaries, period comparisons — it figures out what kind of answer you need and routes the query accordingly.
 
@@ -73,7 +56,7 @@ This isn't a single RAG chain bolted onto a chatbot. It's a **swarm of 8 special
 
 ## ✨ Key Features
 
-![section](https://img.shields.io/badge/-FEATURES-D97757?style=for-the-badge&labelColor=3D3929)
+![section](https://img.shields.io/badge/-FEATURES-1A6FA8?style=for-the-badge&labelColor=13293D)
 
 <table>
 <tr>
@@ -114,18 +97,18 @@ The UI shows exactly which agents ran, in what order, and why.
 
 ## 🏗 Architecture & Workflow Diagrams
 
-![section](https://img.shields.io/badge/-HOW%20IT%20WORKS-D97757?style=for-the-badge&labelColor=3D3929)
+![section](https://img.shields.io/badge/-HOW%20IT%20WORKS-1A6FA8?style=for-the-badge&labelColor=13293D)
 
 ### 1. High-Level System Architecture
 
 ```mermaid
 %%{init: {'theme':'base', 'themeVariables': {
-  'primaryColor': '#D97757',
+  'primaryColor': '#1E293B',
   'primaryTextColor': '#FAF9F5',
-  'primaryBorderColor': '#3D3929',
-  'lineColor': '#3D3929',
-  'secondaryColor': '#F0EEE6',
-  'tertiaryColor': '#FAF9F5'
+  'primaryBorderColor': '#4DB8FF',
+  'lineColor': '#4DB8FF',
+  'secondaryColor': '#0F172A',
+  'tertiaryColor': '#1E293B'
 }}}%%
 flowchart TD
     A[👤 User] -->|Uploads PDF| UI[Streamlit UI — app_streamlit.py]
@@ -153,12 +136,12 @@ Every agent can hand off to almost any other agent — this is what makes it a *
 
 ```mermaid
 %%{init: {'theme':'base', 'themeVariables': {
-  'primaryColor': '#D97757',
+  'primaryColor': '#1E293B',
   'primaryTextColor': '#FAF9F5',
-  'primaryBorderColor': '#3D3929',
-  'lineColor': '#3D3929',
-  'secondaryColor': '#F0EEE6',
-  'tertiaryColor': '#FAF9F5'
+  'primaryBorderColor': '#4DB8FF',
+  'lineColor': '#4DB8FF',
+  'secondaryColor': '#0F172A',
+  'tertiaryColor': '#1E293B'
 }}}%%
 flowchart TD
     Start([User Query]) --> Memory{Memory Agent<br/>vector-similarity cache lookup}
@@ -185,21 +168,20 @@ flowchart TD
 
     Aggregator[Aggregator Agent<br/>synthesizes answer + writes cache] --> End([Final Answer → Streamlit UI])
 ```
-
 > 🛟 **Safety net:** any agent that exceeds **12 hops** is force-routed straight to the Aggregator, so the swarm can never loop forever.
 
 ### 3. Document Ingestion Pipeline
 
 ```mermaid
 %%{init: {'theme':'base', 'themeVariables': {
-  'primaryColor': '#D97757',
+  'primaryColor': '#1E293B',
   'primaryTextColor': '#FAF9F5',
-  'primaryBorderColor': '#3D3929',
-  'lineColor': '#3D3929',
-  'secondaryColor': '#F0EEE6',
-  'tertiaryColor': '#FAF9F5'
+  'primaryBorderColor': '#4DB8FF',
+  'lineColor': '#4DB8FF',
+  'secondaryColor': '#0F172A',
+  'tertiaryColor': '#1E293B'
 }}}%%
-flowchart LR
+flowchart TD
     PDF[📄 Uploaded PDF] --> PART[Unstructured API<br/>strategy: hi_res / fast]
     PART --> TXT[Text & Title elements]
     PART --> TBL[Table elements]
@@ -220,20 +202,20 @@ flowchart LR
 
 ```mermaid
 %%{init: {'theme':'base', 'themeVariables': {
-  'primaryColor': '#F0EEE6',
-  'primaryTextColor': '#3D3929',
-  'primaryBorderColor': '#D97757',
-  'lineColor': '#D97757',
-  'actorBkg': '#D97757',
+  'primaryColor': '#0F172A',
+  'primaryTextColor': '#FAF9F5',
+  'primaryBorderColor': '#4DB8FF',
+  'lineColor': '#4DB8FF',
+  'actorBkg': '#1A6FA8',
   'actorTextColor': '#FAF9F5',
-  'actorBorder': '#3D3929',
-  'signalColor': '#3D3929',
-  'signalTextColor': '#3D3929',
-  'labelBoxBkgColor': '#F0EEE6',
-  'labelTextColor': '#3D3929',
-  'noteBkgColor': '#FAF9F5',
-  'noteTextColor': '#3D3929',
-  'noteBorderColor': '#D97757'
+  'actorBorder': '#4DB8FF',
+  'signalColor': '#FAF9F5',
+  'signalTextColor': '#FAF9F5',
+  'labelBoxBkgColor': '#1E293B',
+  'labelTextColor': '#FAF9F5',
+  'noteBkgColor': '#0F172A',
+  'noteTextColor': '#FAF9F5',
+  'noteBorderColor': '#4DB8FF'
 }}}%%
 sequenceDiagram
     participant U as User
@@ -273,19 +255,19 @@ sequenceDiagram
 
 ## 🛠 Tech Stack
 
-![section](https://img.shields.io/badge/-BUILT%20WITH-D97757?style=for-the-badge&labelColor=3D3929)
+![section](https://img.shields.io/badge/-BUILT%20WITH-1A6FA8?style=for-the-badge&labelColor=13293D)
 
 <p align="left">
-  <img src="https://img.shields.io/badge/LangGraph-Orchestration-D97757?style=flat-square&labelColor=3D3929"/>
-  <img src="https://img.shields.io/badge/LangChain-LLM%20Abstraction-D97757?style=flat-square&labelColor=3D3929"/>
-  <img src="https://img.shields.io/badge/GROQ-LLM%20%2B%20Vision-D97757?style=flat-square&labelColor=3D3929"/>
-  <img src="https://img.shields.io/badge/ChromaDB-Vector%20Store-D97757?style=flat-square&labelColor=3D3929"/>
+  <img src="https://img.shields.io/badge/LangGraph-Orchestration-1A6FA8?style=flat-square&labelColor=13293D"/>
+  <img src="https://img.shields.io/badge/LangChain-LLM%20Abstraction-1A6FA8?style=flat-square&labelColor=13293D"/>
+  <img src="https://img.shields.io/badge/GROQ-LLM%20%2B%20Vision-1A6FA8?style=flat-square&labelColor=13293D"/>
+  <img src="https://img.shields.io/badge/ChromaDB-Vector%20Store-1A6FA8?style=flat-square&labelColor=13293D"/>
   <br/>
-  <img src="https://img.shields.io/badge/HuggingFace-Embeddings-D97757?style=flat-square&labelColor=3D3929"/>
-  <img src="https://img.shields.io/badge/Tavily-Web%20Search-D97757?style=flat-square&labelColor=3D3929"/>
-  <img src="https://img.shields.io/badge/Unstructured.io-PDF%20Parsing-D97757?style=flat-square&labelColor=3D3929"/>
-  <img src="https://img.shields.io/badge/Streamlit-UI-D97757?style=flat-square&labelColor=3D3929"/>
-  <img src="https://img.shields.io/badge/Pandas-Data-D97757?style=flat-square&labelColor=3D3929"/>
+  <img src="https://img.shields.io/badge/HuggingFace-Embeddings-1A6FA8?style=flat-square&labelColor=13293D"/>
+  <img src="https://img.shields.io/badge/Tavily-Web%20Search-1A6FA8?style=flat-square&labelColor=13293D"/>
+  <img src="https://img.shields.io/badge/Unstructured.io-PDF%20Parsing-1A6FA8?style=flat-square&labelColor=13293D"/>
+  <img src="https://img.shields.io/badge/Streamlit-UI-1A6FA8?style=flat-square&labelColor=13293D"/>
+  <img src="https://img.shields.io/badge/Pandas-Data-1A6FA8?style=flat-square&labelColor=13293D"/>
 </p>
 
 | Layer | Technology |
@@ -305,7 +287,7 @@ sequenceDiagram
 
 ## 📁 Project Structure
 
-![section](https://img.shields.io/badge/-PROJECT%20STRUCTURE-D97757?style=for-the-badge&labelColor=3D3929)
+![section](https://img.shields.io/badge/-PROJECT%20STRUCTURE-1A6FA8?style=for-the-badge&labelColor=13293D)
 
 ```
 Financial--QA/
@@ -338,7 +320,7 @@ Financial--QA/
 
 ## 🚀 Getting Started
 
-![section](https://img.shields.io/badge/-STEP%20BY%20STEP%20SETUP-D97757?style=for-the-badge&labelColor=3D3929)
+![section](https://img.shields.io/badge/-STEP%20BY%20STEP%20SETUP-1A6FA8?style=for-the-badge&labelColor=13293D)
 
 ### 1️⃣ Prerequisites
 - Python **3.9+**
@@ -418,7 +400,7 @@ TAVILY_API_KEY=your_tavily_api_key_here
 UNSTRUCTURED_API_KEY=your_unstructured_api_key_here
 ```
 
-> ⚠️ Never commit your `.env` file — confirm it's listed in `.gitignore` before pushing.
+
 
 ### 7️⃣ Run the App
 
@@ -441,16 +423,16 @@ The app opens at `http://localhost:8501` 🎉
 
 ## 💻 Using the Application
 
-![section](https://img.shields.io/badge/-HOW%20TO%20USE%20IT-D97757?style=for-the-badge&labelColor=3D3929)
+![section](https://img.shields.io/badge/-HOW%20TO%20USE%20IT-1A6FA8?style=for-the-badge&labelColor=13293D)
 
 | Step | Action |
 |---|---|
-| 1️⃣ | **Upload** — sidebar → *Upload PDF Document* → choose file → *Process Document* |
-| 2️⃣ | **Ask** — type a question like *"What was the total revenue for Q1 2024?"* |
-| 3️⃣ | **Inspect** — expand *"🔍 View Agent Execution Trace"* to see exactly which agents ran |
-| 4️⃣ | **Manage** — start new conversations, switch threads, or clear chat from the sidebar |
-| 5️⃣ | **Control caching** — bypass cache for a fresh answer, or clear it entirely |
-| 6️⃣ | **Reset** — *"🔄 Reset Vector"* clears the current document so you can start fresh |
+| 1️⃣ | **Upload** : sidebar → *Upload PDF Document* → choose file → *Process Document* |
+| 2️⃣ | **Ask** : Type a question like "*What was the total revenue for Q1 2024?*" |
+| 3️⃣ | **Inspect** : expand "*🔍 View Agent Execution Trace*" to see exactly which agents ran |
+| 4️⃣ | **Manage** : start new conversations, switch threads, or clear chat from the sidebar |
+| 5️⃣ | **Control caching** : bypass cache for a fresh answer, or clear it entirely |
+| 6️⃣ | **Reset** : "*🔄 Reset Vector*" clears the current document so you can start fresh |
 
 **Try asking:**
 ```
@@ -464,7 +446,7 @@ The app opens at `http://localhost:8501` 🎉
 
 ## 🤖 Agent Reference
 
-![section](https://img.shields.io/badge/-MEET%20THE%20AGENTS-D97757?style=for-the-badge&labelColor=3D3929)
+![section](https://img.shields.io/badge/-MEET%20THE%20AGENTS-1A6FA8?style=for-the-badge&labelColor=13293D)
 
 | # | Agent | Responsibility | Hands off to |
 |---|---|---|---|
@@ -481,7 +463,7 @@ The app opens at `http://localhost:8501` 🎉
 
 ## ⚙️ Configuration Reference
 
-![section](https://img.shields.io/badge/-CONFIGURATION-D97757?style=for-the-badge&labelColor=3D3929)
+![section](https://img.shields.io/badge/-CONFIGURATION-1A6FA8?style=for-the-badge&labelColor=13293D)
 
 <details>
 <summary><b>Click to expand config.py options</b></summary>
@@ -524,7 +506,7 @@ VISION_MAX_TOKENS = 2048
 
 ## 🧩 Vector Store Architecture Notes
 
-![section](https://img.shields.io/badge/-WHY%20CHROMA__CLIENT.PY%20LOOKS%20LIKE%20THIS-D97757?style=for-the-badge&labelColor=3D3929)
+![section](https://img.shields.io/badge/-WHY%20CHROMA__CLIENT.PY%20LOOKS%20LIKE%20THIS-1A6FA8?style=for-the-badge&labelColor=13293D)
 
 ChromaDB keeps its own internal, library-level cache of `System` objects, keyed by the persistence directory path — separate from anything an application builds on top of it. Earlier versions of this project deleted the on-disk vectorstore folder and created a brand-new `PersistentClient` on every ingest, which could desync chromadb's internal cache from what was actually on disk, producing:
 
@@ -536,22 +518,16 @@ ValueError: Could not connect to tenant default_tenant. Are you sure it exists?
 
 ```mermaid
 %%{init: {'theme':'base', 'themeVariables': {
-  'primaryColor': '#D97757',
+  'primaryColor': '#1E293B',
   'primaryTextColor': '#FAF9F5',
-  'primaryBorderColor': '#3D3929',
-  'lineColor': '#3D3929',
-  'secondaryColor': '#F0EEE6',
-  'tertiaryColor': '#FAF9F5'
+  'primaryBorderColor': '#4DB8FF',
+  'lineColor': '#4DB8FF',
+  'secondaryColor': '#0F172A',
+  'tertiaryColor': '#1E293B'
 }}}%%
-flowchart LR
-    subgraph Before["❌ Before — fragile"]
-        A1[New upload] --> A2[Delete folder]
-        A2 --> A3[New PersistentClient]
-        A3 --> A4[Tenant mismatch]
-    end
-
-    subgraph After["✅ After — stable"]
-        B1[New upload] --> B2[reset_collection]
+flowchart TB
+    subgraph After[" "]
+        B1[New upload] --> B2[Reset_collection]
         B2 --> B3[Same singleton client]
         B3 --> B4[Clean collection rebuild]
     end
@@ -561,7 +537,7 @@ flowchart LR
 
 ## 🩺 Troubleshooting
 
-![section](https://img.shields.io/badge/-TROUBLESHOOTING-D97757?style=for-the-badge&labelColor=3D3929)
+![section](https://img.shields.io/badge/-TROUBLESHOOTING-1A6FA8?style=for-the-badge&labelColor=13293D)
 
 <details>
 <summary><b>Click to expand common issues & fixes</b></summary>
@@ -582,7 +558,7 @@ flowchart LR
 
 ## 🗺 Roadmap
 
-![section](https://img.shields.io/badge/-WHAT'S%20NEXT-D97757?style=for-the-badge&labelColor=3D3929)
+![section](https://img.shields.io/badge/-WHAT'S%20NEXT-1A6FA8?style=for-the-badge&labelColor=13293D)
 
 - [ ] Multi-document support (query across several uploaded PDFs at once)
 - [ ] Persist conversation/cache state in a real database
@@ -594,7 +570,7 @@ flowchart LR
 
 ## 🤝 Contributing
 
-![section](https://img.shields.io/badge/-CONTRIBUTING-D97757?style=for-the-badge&labelColor=3D3929)
+![section](https://img.shields.io/badge/-CONTRIBUTING-1A6FA8?style=for-the-badge&labelColor=13293D)
 
 1. Fork the repository
 2. Create a feature branch: `git checkout -b feature/your-feature`
@@ -605,7 +581,7 @@ flowchart LR
 
 ## 📝 License
 
-![section](https://img.shields.io/badge/-LICENSE-D97757?style=for-the-badge&labelColor=3D3929)
+![section](https://img.shields.io/badge/-LICENSE-1A6FA8?style=for-the-badge&labelColor=13293D)
 
 No license file is currently included. If you intend to share or distribute this project, consider adding a `LICENSE` file — MIT is a common, permissive choice.
 
@@ -613,16 +589,16 @@ No license file is currently included. If you intend to share or distribute this
 
 ## 🙏 Acknowledgments
 
-![section](https://img.shields.io/badge/-ACKNOWLEDGMENTS-D97757?style=for-the-badge&labelColor=3D3929)
+![section](https://img.shields.io/badge/-ACKNOWLEDGMENTS-1A6FA8?style=for-the-badge&labelColor=13293D)
 
-- **LangChain / LangGraph** — multi-agent orchestration framework
-- **GROQ** — high-performance LLM and vision inference
-- **Tavily** — real-time web search API
-- **Unstructured.io** — layout-aware PDF parsing
-- **Streamlit** — the web UI framework powering the chat interface
+- **LangChain / LangGraph** : multi-agent orchestration framework
+- **GROQ** : high-performance LLM and vision inference
+- **Tavily** : real-time web search API
+- **Unstructured.io** : layout-aware PDF parsing
+- **Streamlit** : the web UI framework powering the chat interface
 
 <p align="center">
-  <img src="https://capsule-render.vercel.app/api?type=waving&color=0:8B5E3C,100:D97757&height=150&section=footer&animation=fadeIn" width="100%"/>
+  <img src="https://capsule-render.vercel.app/api?type=waving&color=0:13293D,100:1A6FA8&height=150&section=footer&animation=fadeIn" width="100%"/>
 </p>
 
-<p align="center"><sub>Made with 🧡 — if this helped you, consider giving the repo a ⭐</sub></p>
+<p align="center"><sub>Made with 🧡! if this helped you, consider giving the repo a ⭐</sub></p>
