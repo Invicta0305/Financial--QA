@@ -508,8 +508,8 @@ def render_sidebar():
         
         with col2:
             if st.button("🔄 Reset Vector", use_container_width=True):
-                if os.path.exists(DEFAULT_DB_PATH):
-                    shutil.rmtree(DEFAULT_DB_PATH)
+                from chroma_client import reset_collection
+                reset_collection(DEFAULT_DB_PATH, "langchain")
                 st.session_state.processed_documents = []
                 st.session_state.vector_store_ready = False
                 st.success("Vector store reset!")
