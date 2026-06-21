@@ -1,6 +1,3 @@
-<p align="center">
-  <img src="https://capsule-render.vercel.app/api?type=waving&color=0:1A6FA8,100:13293D&height=260&section=header&text=Financial--QA&fontSize=66&fontColor=FAF9F5&animation=fadeIn&fontAlignY=35&desc=Multi-Agent%20Q%26A%20for%20Financial%20Documents&descAlignY=58&descSize=20&fontColorDesc=FAF9F5" width="100%"/>
-</p>
 
 <p align="center">
   <img src="https://readme-typing-svg.demolab.com/?font=Fira+Code&weight=600&size=20&duration=3000&pause=800&color=1A6FA8&center=true&vCenter=true&width=720&lines=Upload+a+financial+PDF.+Ask+anything.;8+autonomous+agents+do+the+rest.;Powered+by+LangGraph+%2B+GROQ+%2B+ChromaDB." alt="Typing SVG" />
