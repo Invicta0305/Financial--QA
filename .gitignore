@@ -1,0 +1,23 @@
+# Environment variables (API keys)
+.env
+
+# Python cache
+__pycache__/
+*.pyc
+
+# Virtual environment
+finance_env/
+venv/
+
+# Generated data
+vectorstore_final/
+query_cache_vectorstore/
+conversations/
+temp_uploads/
+
+# IDE
+.vscode/
+.idea/
+
+# OS files
+.DS_Store

@@ -1,0 +1,28 @@
+# LangChain & LangGraph
+langchain
+langchain-groq
+langchain-chroma
+langchain-huggingface
+langgraph
+
+# Vector Store & Embeddings
+chromadb
+
+# LLM Providers
+groq
+
+# Web Search
+tavily-python
+
+# PDF Processing & Unstructured
+unstructured
+unstructured-client
+
+# Web Interface
+streamlit
+
+# Data Processing
+pandas
+
+# Environment Variables
+python-dotenv
