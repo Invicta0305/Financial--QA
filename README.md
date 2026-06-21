@@ -789,3 +789,5 @@ This project implements concepts from the following research papers:
 - **State Persistence**: LangGraph checkpointing with MemorySaver
 
 ---
+#   F i n a n c i a l - - Q A  
+ 
