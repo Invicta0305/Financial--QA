@@ -22,7 +22,7 @@ def retrieve_agent(state: GraphState):
         raise ValueError("Empty query for retrieval")
 
     try:
-        # Uses shared PersistentClient — no tenant conflict
+        # Shared PersistentClient avoids tenant conflicts
         vectorstore = get_vectorstore(DEFAULT_DB_PATH, collection_name="langchain")
         retriever = vectorstore.as_retriever(search_kwargs={"k": 10})
         docs = retriever.invoke(query)

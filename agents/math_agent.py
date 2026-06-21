@@ -41,7 +41,6 @@ def math_agent(state: GraphState):
     
     context = state.get("context", {})
     
-    # Check for structured data availability
     if not context.get("structured_data"):
         print("No structured data available, routing to Aggregator")
         
@@ -55,10 +54,8 @@ def math_agent(state: GraphState):
         
         return {"next_agent": "Aggregator"}
     
-    # Prepare context string
     context_str = json.dumps(context, default=str)
     
-    # Calculation prompt
     prompt = f"""You are a Math agent specialized in financial calculations and analysis.
 
 TASK: Perform calculations based on the user's query and the extracted structured data.
@@ -123,16 +120,14 @@ Return JSON with calculated results:
         if not response or not response.content:
             raise LLMError("LLM returned empty response")
         
-        # Parse JSON from LLM response
         parsed = parse_json_from_llm(response.content)
         
         if parsed is None:
             parsed = {"raw_calculation": response.content}
         
-        print("Calculations complete, routing to Aggregator")
+        print("Calculations complete")
         
-        # FIX: If Validator detected a compound query (calc + summary), continue
-        # to Summarizer instead of jumping straight to Aggregator.
+        # Route to Summarizer instead of Aggregator if Validator flagged this as a compound query (calc + summary)
         needs_summary = context.get("needs_summary", False)
         next_agent = "Summarizer" if needs_summary else "Aggregator"
 

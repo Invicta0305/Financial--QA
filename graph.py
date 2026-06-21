@@ -9,7 +9,6 @@ from langgraph.graph import StateGraph, END
 from langgraph.checkpoint.memory import MemorySaver
 from models import GraphState
 
-# Import agent functions
 from agents.memory_agent import memory_agent
 from agents.retriever_agent import retrieve_agent
 from agents.validator_agent import validator_agent
@@ -35,9 +34,9 @@ def route_next_agent(state: GraphState):
     return END if next_agent == "END" else next_agent
 
 
-# FIX: Prevent runaway routing loops. All agent nodes are wrapped with this
-# decorator before registration. If hop_count exceeds MAX_HOPS the wrapper
-# forces a hard route to Aggregator instead of letting the graph spin forever.
+# Every agent node gets wrapped with this decorator before registration. If hop_count
+# exceeds MAX_HOPS, the wrapper forces a hard route to Aggregator instead of letting
+# the graph spin in a runaway routing loop.
 MAX_HOPS = 12
 
 def with_hop_limit(agent_name: str, agent_fn):
@@ -77,7 +76,6 @@ def build_graph():
     """
     workflow = StateGraph(GraphState)
     
-    # Register all agent nodes (wrapped with hop-count safety)
     workflow.add_node("Memory",     with_hop_limit("Memory",     memory_agent))
     workflow.add_node("Retriever",  with_hop_limit("Retriever",  retrieve_agent))
     workflow.add_node("Validator",  with_hop_limit("Validator",  validator_agent))
@@ -87,10 +85,8 @@ def build_graph():
     workflow.add_node("Math",       with_hop_limit("Math",       math_agent))
     workflow.add_node("Aggregator", with_hop_limit("Aggregator", aggregator_agent))
     
-    # Set Memory as the entry point for all queries
     workflow.set_entry_point("Memory")
     
-    # Define all possible agent transitions
     all_agents = [
         "Memory", 
         "Retriever",
@@ -102,8 +98,7 @@ def build_graph():
         "Aggregator"
     ]
     
-    # Add conditional routing edges for each agent
-    # Allows any agent to route to any other agent dynamically
+    # Every agent maps to itself here so any agent can route to any other agent dynamically
     agent_routing = {
         "Memory": "Memory",
         "Retriever": "Retriever",
@@ -123,6 +118,5 @@ def build_graph():
             agent_routing
         )
     
-    # Compile workflow with memory checkpointing for conversation continuity
     checkpointer = MemorySaver()
     return workflow.compile(checkpointer=checkpointer)

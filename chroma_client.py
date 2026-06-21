@@ -1,30 +1,18 @@
 """
 Shared ChromaDB client module.
 
-THE PROBLEM THIS SOLVED (root cause):
-chromadb keeps its own internal, library-level cache of "System" objects,
-keyed by the persist directory path. This cache lives INSIDE chromadb itself
-(chromadb.api.client.SharedSystemClient) -- it is separate from any cache an
-application builds on top of it.
+chromadb keeps its own internal cache of "System" objects, keyed by persist
+directory path (chromadb.api.client.SharedSystemClient). This cache lives
+inside chromadb itself, separate from anything this module tracks.
 
-The old version of this file deleted the on-disk vectorstore directory and
-created a brand new chromadb.PersistentClient on every re-ingest. Even after
-clearing this module's own cache, chromadb's internal cache could still be
-holding state tied to the now-deleted directory, which produced:
-
-    ValueError: Could not connect to tenant default_tenant. Are you sure it exists?
-
-It also meant a half-finished ingest could leave the OLD vectorstore data on
-disk, so a fresh `streamlit run` would load the previous document instead of
-the new one.
-
-FIX:
-- Exactly ONE PersistentClient is ever created per directory, for the life of
-  the process (_clients dict acts as a true singleton cache).
-- To replace a document's data, we delete + recreate the COLLECTION through
-  that same client (reset_collection), instead of deleting the directory and
-  creating a new client. This means chromadb's internal System cache is never
-  disturbed mid-process, which is what was causing the tenant error.
+To avoid tenant errors ("Could not connect to tenant default_tenant") and
+stale data from half-finished ingests, this module:
+- Creates exactly ONE PersistentClient per directory, for the life of the
+  process (see _clients below).
+- Replaces a document's data by deleting and recreating the COLLECTION
+  through that same client (reset_collection), rather than deleting the
+  directory and creating a new client. This keeps chromadb's internal
+  System cache from ever being disturbed mid-process.
 """
 
 import os

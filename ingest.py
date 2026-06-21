@@ -16,24 +16,22 @@ def create_vector_store(pdf_path, db_path=DEFAULT_DB_PATH):
     """
     Create a vector store from a PDF document.
 
-    Re-ingesting a new document no longer deletes the on-disk directory or
-    creates a brand new chromadb client -- it reuses the single shared
-    PersistentClient (from chroma_client.py) and just clears the collection.
-    This is what avoids the "Could not connect to tenant default_tenant" error.
+    Re-ingesting reuses the single shared PersistentClient (see chroma_client.py)
+    and simply clears the collection rather than deleting the on-disk directory
+    or creating a new client. This avoids the "Could not connect to tenant
+    default_tenant" error.
     """
     if not GROQ_API_KEY:
         raise ValueError("GROQ_API_KEY not configured in environment")
 
     start_time = time.time()
 
-    # Step 1: Partition PDF
     print("Partitioning PDF...")
     partition_start = time.time()
     elements = partition_pdf_flexible(pdf_path)
     partition_time = time.time() - partition_start
     print(f"Extracted {len(elements)} elements in {partition_time:.1f}s")
 
-    # Step 2: Process elements
     print("\nProcessing elements...")
     process_start = time.time()
     llm = ChatGroq(model=LLM_MODEL, temperature=0, api_key=GROQ_API_KEY)
@@ -41,13 +39,11 @@ def create_vector_store(pdf_path, db_path=DEFAULT_DB_PATH):
     process_time = time.time() - process_start
     print(f"Created {len(docs)} documents in {process_time:.1f}s")
 
-    # Step 3: Create vector store
     print("\nCreating vector store...")
     store_start = time.time()
 
-    # Clear out any previous document's data by resetting the COLLECTION,
-    # not the directory/client. Uses the one shared PersistentClient for the
-    # whole process (see chroma_client.py).
+    # Reset the COLLECTION (not the directory or client) so the previous document's
+    # data is cleared while reusing the shared PersistentClient (see chroma_client.py)
     client = reset_collection(db_path, "langchain")
     embedding_model = get_embedding_model()
 

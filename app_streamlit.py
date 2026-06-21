@@ -20,7 +20,6 @@ from ingest import create_vector_store
 from config import DEFAULT_DB_PATH
 
 
-# Configuration
 CONVERSATIONS_DIR = Path("conversations")
 CONVERSATIONS_DIR.mkdir(exist_ok=True)
 
@@ -105,7 +104,6 @@ def clear_query_cache():
     return True
 
 
-# Page configuration
 st.set_page_config(
     page_title="Multi-Agent Q&A for Financial Documents",
     page_icon="💼",
@@ -114,7 +112,6 @@ st.set_page_config(
 )
 
 
-# Custom CSS styling
 st.markdown("""
     <style>
     .main-header {
@@ -235,9 +232,8 @@ def process_pdf_file(uploaded_file, temp_dir="temp_uploads"):
             status_text.text("Step 1/3: Extracting content from PDF...")
             progress_bar.progress(33)
             
-            # FIX: ChromaDB error code 14 = "unable to open database file"
-            # happens when the vectorstore directory doesn't exist yet.
-            # Create it explicitly before calling create_vector_store.
+            # Create the vectorstore directory up front — ChromaDB errors (code 14,
+            # "unable to open database file") if it doesn't already exist.
             os.makedirs(DEFAULT_DB_PATH, exist_ok=True)
             
             create_vector_store(pdf_path, db_path=DEFAULT_DB_PATH)
@@ -265,11 +261,11 @@ def process_pdf_file(uploaded_file, temp_dir="temp_uploads"):
     
     except Exception as e:
         err_str = str(e)
-        # FIX: WinError 32 = file locked by another process (leftover from ingest.py).
-        # Give a clear actionable message instead of a cryptic OS error.
+        # WinError 32 means the file is locked by another process (often a leftover
+        # ingest.py run) — give a clear, actionable message instead of the raw OS error.
         if "WinError 32" in err_str or "being used by another process" in err_str:
             import glob, os as _os
-            # Clean up SQLite WAL/SHM leftover lock files
+            # Remove leftover SQLite lock files (WAL/SHM)
             for lock_file in glob.glob(f"{DEFAULT_DB_PATH}/chroma.sqlite3-*"):
                 try:
                     _os.remove(lock_file)
@@ -351,11 +347,11 @@ def process_query(query, graph_app):
         "conversation_history": st.session_state.conversation_history,
         "thread_id": st.session_state.thread_id,
         "bypass_cache": bypass_cache,
-        "hop_count": 0  # FIX: initialize hop counter for our hop-limit safety wrapper
+        "hop_count": 0  # Tracked by the hop-limit safety wrapper to cap node visits
     }
     
-    # FIX: Raise recursion limit above default 25 — our hop_limit wrapper stops
-    # at 12 hops, but LangGraph counts every node visit. 50 gives plenty of headroom.
+    # LangGraph's default recursion limit (25) counts every node visit, but our
+    # hop-limit wrapper already stops at 12 hops — 50 just gives plenty of headroom.
     config = {
         "configurable": {"thread_id": st.session_state.thread_id},
         "recursion_limit": 50
@@ -364,7 +360,7 @@ def process_query(query, graph_app):
     with st.spinner("Thinking..."):
         final_state = graph_app.invoke(inputs, config=config)
     
-    # Reset bypass flags after use
+    # Bypass flags are one-shot — clear them after this query
     if st.session_state.get('bypass_cache_once', False):
         st.session_state.bypass_cache_once = False
     if st.session_state.get('force_bypass_cache', False):
@@ -378,7 +374,6 @@ def render_sidebar():
     with st.sidebar:
         st.header("💬 Conversations")
         
-        # New conversation button
         if st.button("➕ New Conversation", use_container_width=True):
             if st.session_state.messages:
                 save_conversation(
@@ -398,7 +393,6 @@ def render_sidebar():
         
         st.divider()
         
-        # Past conversations list
         st.subheader("📚 Past Conversations")
         
         past_convs = list_conversations()
@@ -429,7 +423,6 @@ def render_sidebar():
         
         st.divider()
         
-        # Document management
         st.header("📁 Document Management")
         
         with st.expander("📤 Upload PDF Document", expanded=not st.session_state.vector_store_ready):
@@ -456,7 +449,6 @@ def render_sidebar():
             
             st.markdown('</div>', unsafe_allow_html=True)
         
-        # Processed documents list
         if st.session_state.processed_documents:
             st.markdown("### 📚 Processed Documents")
             for doc in st.session_state.processed_documents:
@@ -469,7 +461,6 @@ def render_sidebar():
         
         st.divider()
         
-        # Cache control settings
         with st.expander("⚙️ Cache Settings", expanded=False):
             bypass_next = st.checkbox(
                 "🔄 Bypass cache for next query", 
@@ -496,7 +487,6 @@ def render_sidebar():
         
         st.divider()
         
-        # Action buttons
         col1, col2 = st.columns(2)
         
         with col1:
@@ -517,7 +507,6 @@ def render_sidebar():
         
         st.divider()
         
-        # Session statistics
         st.markdown("### 📊 Session Stats")
         st.metric("Documents Processed", len(st.session_state.processed_documents))
         st.metric("Queries in Session", st.session_state.conversation_count)
@@ -528,7 +517,6 @@ def render_sidebar():
         
         st.divider()
         
-        # Information and help
         st.markdown("### ℹ️ About")
         st.info("""
         This AI assistant uses a **multi-agent swarm system** powered by:
@@ -540,7 +528,6 @@ def render_sidebar():
         - 💬 Conversation memory
         """)
         
-        # Example queries
         if st.session_state.vector_store_ready:
             st.markdown("### 💡 Example Queries")
             example_queries = [
@@ -559,14 +546,11 @@ def main():
     """Main application entry point with chat interface and agent orchestration."""
     initialize_session_state()
     
-    # Header
     st.markdown('<div class="main-header">💼 Multi-Agent Q&A for Financial Documents</div>', unsafe_allow_html=True)
     st.markdown("Upload financial documents and ask questions about them!")
     
-    # Render sidebar
     render_sidebar()
     
-    # Check if vector store is ready
     if not st.session_state.vector_store_ready:
         st.info("👈 Please upload a PDF document to get started!")
         
@@ -589,14 +573,12 @@ def main():
         
         return
     
-    # Initialize graph
     graph_app = get_graph()
     
     if graph_app is None:
         st.error("Failed to initialize the system. Please check your configuration.")
         return
     
-    # Display chat history
     for message in st.session_state.messages:
         with st.chat_message(message["role"]):
             st.markdown(message["content"])
@@ -616,18 +598,16 @@ def main():
                 with st.expander("📄 View Full JSON Log", expanded=False):
                     st.json(metadata.get("full_log", {}))
     
-    # Handle user input
+    # Use a queued example query if one was clicked; otherwise wait for normal chat input
     if hasattr(st.session_state, 'next_query'):
         query = st.session_state.next_query
         del st.session_state.next_query
     else:
         query = st.chat_input("💬 Ask a financial question...")
     
-    # Process new query
     if query:
         st.session_state.conversation_count += 1
         
-        # Display user message
         with st.chat_message("user"):
             st.markdown(query)
         
@@ -636,14 +616,12 @@ def main():
             "content": query
         })
         
-        # Process through agent graph
         final_state = process_query(query, graph_app)
         
         answer = final_state.get("answer", "No answer generated")
         trace = final_state.get("trace", [])
         cache_hit = final_state.get("cache_hit", False)
         
-        # Display assistant response
         with st.chat_message("assistant"):
             st.markdown(answer)
             
@@ -672,7 +650,6 @@ def main():
                 }
                 st.json(full_log)
         
-        # Add assistant message to history
         assistant_message = {
             "role": "assistant",
             "content": answer,
@@ -692,11 +669,9 @@ def main():
         
         st.session_state.messages.append(assistant_message)
         
-        # Update conversation history
         st.session_state.conversation_history.append(f"User: {query}")
         st.session_state.conversation_history.append(f"Assistant: {answer[:500]}")
         
-        # Auto-save conversation
         save_conversation(
             st.session_state.thread_id,
             st.session_state.messages,

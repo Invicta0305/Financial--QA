@@ -21,7 +21,6 @@ from unstructured_client.models import shared, errors, operations
 from config import UNSTRUCTURED_API_KEY, GROQ_API_KEY
 
 
-# Initialize API clients
 unstructured_api_client = unstructured_client.UnstructuredClient(
     api_key_auth=UNSTRUCTURED_API_KEY
 )
@@ -41,7 +40,7 @@ def analyze_chart_with_groq(image_base64):
     if not image_base64:
         return None
     
-    # Check image size limit (approximately 5MB)
+    # ~5MB limit on image size
     if len(image_base64) > 5000000:
         print("  Warning: Image exceeds size limit, skipping vision analysis")
         return None
@@ -109,7 +108,8 @@ Be concise but preserve all important numerical and categorical information.
 
 Summary:"""
     
-    # FIX: was `while True` — could hang forever. Now max 3 retries then skip.
+    # Retries up to MAX_RETRIES times on rate limit, then falls back to raw
+    # content instead of looping forever.
     MAX_RETRIES = 3
     for attempt in range(MAX_RETRIES):
         try:
@@ -167,7 +167,8 @@ def api_partition_pdf(pdf_path):
         print(f"Error during PDF partitioning: {e.message}")
         return []
 
-    # Convert API response to element objects with simplified structure
+    # Wrap each raw API response dict in a simple object so downstream code
+    # can use attribute access (el.category, el.metadata.page_number, etc.)
     class Element:
         def __init__(self, el):
             self.category = el.get("type") or el.get("category")
@@ -183,7 +184,6 @@ def api_partition_pdf(pdf_path):
 
     elements = [Element(el) for el in res.elements]
     
-    # Log extraction statistics
     visual_count = sum(1 for el in elements if el.category in ["Image", "Figure"])
     table_count = sum(1 for el in elements if el.category == "Table")
     print(f"Extracted {len(elements)} elements: {visual_count} images, {table_count} tables")
@@ -249,7 +249,6 @@ def process_single_element(element, llm, pdf_path, min_summary_length=300):
     }
     
     try:
-        # Process tables with HTML structure
         if element.category == "Table":
             html_content = getattr(element.metadata, 'text_as_html', "")
             
@@ -263,7 +262,6 @@ def process_single_element(element, llm, pdf_path, min_summary_length=300):
                         metadata=meta
                     ))
                     
-                    # Generate summary for large tables
                     if len(markdown_table) > min_summary_length:
                         summary = generate_summary_with_llm(markdown_table, llm, "table")
                         docs.append(Document(
@@ -286,7 +284,6 @@ def process_single_element(element, llm, pdf_path, min_summary_length=300):
                         metadata=meta
                     ))
         
-        # Process images and charts with vision extraction
         elif element.category in ["Image", "Figure"]:
             text = getattr(element, "text", "")
             image_data = getattr(element.metadata, 'image_base64', "")
@@ -317,7 +314,6 @@ def process_single_element(element, llm, pdf_path, min_summary_length=300):
                     metadata={**meta, "has_visual": True}
                 ))
         
-        # Process regular text elements
         else:
             text = getattr(element, "text", "")
             if text and text.strip():
@@ -360,17 +356,14 @@ def process_elements_parallel(elements, llm, pdf_path, max_workers=1):
                 if i % 10 == 0:
                     print(f"  Processed {i}/{len(elements)} elements...")
                 
-                # FIX: Small delay between elements to avoid Groq 429 rate limit.
-                # Only needed when elements trigger LLM calls (tables & images).
-                # 0.5s keeps us well under the free-tier limit without much slowdown.
+                # 0.5s delay avoids hitting Groq's rate limit (429) when an element
+                # triggers an LLM call (tables and images do, plain text doesn't)
                 time.sleep(0.5)
             except Exception as e:
                 print(f"Error in parallel processing: {e}")
     
-    # Filter out empty documents
     all_docs = [doc for doc in all_docs if doc.page_content and doc.page_content.strip()]
     
-    # Log processing statistics
     visual_docs = sum(1 for doc in all_docs if doc.metadata.get("vision_extracted", False))
     table_docs = sum(1 for doc in all_docs if "TABLE" in doc.page_content[:20])
     
@@ -391,7 +384,7 @@ def process_elements(elements, llm, pdf_path):
     Returns:
         list: List of processed Document objects
     """
-    # FIX: was max_workers=4 — firing 4 parallel LLM calls constantly hammers Groq's
-    # free-tier rate limit (429 errors every few seconds). Sequential processing (1 worker)
-    # is slower but actually finishes. The 4-worker version was getting stuck for 20+ min.
+    # max_workers=1 (sequential) avoids hammering Groq's free-tier rate limit —
+    # running several parallel LLM calls (e.g. 4 workers) triggers repeated 429
+    # errors and can stall for 20+ minutes before finishing.
     return process_elements_parallel(elements, llm, pdf_path, max_workers=1)

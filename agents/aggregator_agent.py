@@ -26,11 +26,9 @@ def aggregator_agent(state: GraphState):
     thread_id = state.get("thread_id", "default")
     print(f"Processing in thread: {thread_id}")
 
-    # Return cached answer if available
     if state.get("cache_hit") and state.get("cached_answer"):
         return {"answer": state['cached_answer'], "next_agent": "END"}
 
-    # Handle casual queries
     if context.get("casual_query"):
         if "thank" in query_lower:
             answer = "You're welcome! Let me know if you have any questions about financial data."
@@ -45,7 +43,6 @@ def aggregator_agent(state: GraphState):
         })
         return {"answer": answer, "next_agent": "END"}
 
-    # Handle no usable data
     if context.get("no_usable_data"):
         checked_docs = "Yes" if context.get("retrieved_docs") else "No"
         checked_web = "Yes" if context.get("web_results") else "No"
@@ -62,7 +59,7 @@ def aggregator_agent(state: GraphState):
         })
         return {"answer": error_answer, "next_agent": "END"}
 
-    # Handle conversation history queries
+    # User is asking about past queries or conversation history
     conversation_keywords = [
         "previous query", "what did i ask", "earlier", "before", "last question",
         "all queries", "conversation", "queries i asked", "brief of", "history"
@@ -80,7 +77,7 @@ def aggregator_agent(state: GraphState):
                 answer = f"Conversation history:\n\n{history_text}"
         return {"answer": answer, "next_agent": "END"}
 
-    # Check for available data
+    # Need at least one data source to proceed
     has_data = (
         context.get("retrieved_docs") or context.get("web_results") or
         context.get("structured_data") or context.get("calculations") or
@@ -92,7 +89,6 @@ def aggregator_agent(state: GraphState):
             "next_agent": "END"
         }
 
-    # Build context
     context_parts = []
     if context.get("retrieved_docs"):
         context_parts.append("**Documents:**\n" + "\n".join(context["retrieved_docs"][:3])[:3000])
@@ -127,7 +123,7 @@ ANSWER:
         response = llm.invoke(prompt)
         answer = response.content
 
-        # Quality check before caching
+        # Skip caching answers that look low quality
         LOW_QUALITY = [
             "i couldn't find", "unable to retrieve", "error generating",
             "i don't know", "no information", "cannot answer"

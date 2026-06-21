@@ -59,15 +59,14 @@ class GraphState(TypedDict):
     hop_count: int  # Safety counter — prevents runaway routing loops
 
 
-# Agent handoff rules defining the swarm architecture
-# Each agent can only hand off to specific downstream agents
+# Defines which agents each agent is allowed to hand off to
 AGENT_HANDOFFS = {
     "Memory": ["Retriever", "Aggregator"],
     "Retriever": ["Validator"],
     "Validator": ["WebSearch", "Table", "Summarizer", "Aggregator"],
     "WebSearch": ["Validator"],
     "Table": ["Math", "Aggregator"],
-    "Math": ["Aggregator", "Summarizer"],   # FIX: Math can now hand off to Summarizer for compound queries
+    "Math": ["Aggregator", "Summarizer"],   # Summarizer allowed so Math can hand off compound (calc + summary) queries
     "Summarizer": ["Aggregator"],
     "Aggregator": ["END"]
 }

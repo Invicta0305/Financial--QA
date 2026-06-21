@@ -51,20 +51,17 @@ def parse_json_from_llm(text: str):
     if not text:
         return None
     
-    # Remove leading/trailing whitespace
     text = text.strip()
     
-    # Remove markdown code block markers
+    # Strip a trailing ``` code-block marker, if present
     text = re.sub(r'\s*```$', '', text)
     
-    # Extract JSON object or array from text
     match = re.search(r'(\[.*\]|\{.*\})', text, re.DOTALL)
     if match:
         json_str = match.group(1)
     else:
         json_str = text
     
-    # Attempt to parse JSON
     try:
         return json.loads(json_str)
     except json.JSONDecodeError:

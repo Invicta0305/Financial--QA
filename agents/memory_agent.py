@@ -26,7 +26,7 @@ def memory_agent(state: GraphState):
     if not query or len(query.strip()) == 0:
         raise ValueError("Empty query received")
 
-    # Auto-bypass for time-sensitive queries
+    # Skip cache for time-sensitive queries since a cached answer may be stale
     TIME_SENSITIVE_KEYWORDS = [
         "current", "today", "now", "latest", "real-time", "real time",
         "live", "this week", "this month", "this year", "currently", "recent"
@@ -40,7 +40,6 @@ def memory_agent(state: GraphState):
         })
         return {"next_agent": "Retriever", "cache_hit": False}
 
-    # Manual bypass
     if state.get("bypass_cache", False):
         print("Cache bypass flag set")
         state["trace"].append({

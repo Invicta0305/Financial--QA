@@ -42,7 +42,6 @@ def table_agent(state: GraphState):
     
     context = state.get("context", {})
     
-    # Check for available data sources
     if not context.get("retrieved_docs") and not context.get("web_results"):
         print("No source data available, routing to Aggregator")
         
@@ -56,13 +55,12 @@ def table_agent(state: GraphState):
         
         return {"next_agent": "Aggregator"}
     
-    # Prepare context string with length limit
     context_str = json.dumps(context, default=str)
     
+    # Limit context length to avoid exceeding the prompt's token limit
     if len(context_str) > 50000:
         context_str = context_str[:50000] + "... [truncated]"
     
-    # Data extraction prompt
     prompt = f"""You are a specialized Table Extraction agent for financial document analysis.
 
 TASK: Extract structured numeric data from the provided context in a standardized JSON format.
@@ -119,13 +117,11 @@ If no numeric data found, return: {{"error": "No numeric data found in context"}
         if not response or not response.content:
             raise LLMError("LLM returned empty response")
         
-        # Parse JSON from LLM response
         parsed = parse_json_from_llm(response.content)
         
         if parsed is None:
             parsed = {"raw_text": response.content}
         
-        # Determine next agent based on query requirements
         query_lower = state["query"].lower()
         calculation_keywords = ["compare", "calculate", "ratio", "growth", "change"]
         needs_calculation = any(kw in query_lower for kw in calculation_keywords)

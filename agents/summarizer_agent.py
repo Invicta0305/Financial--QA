@@ -7,7 +7,7 @@ results and forwards the summary to the Aggregator for final response generation
 
 from langchain_groq import ChatGroq
 from models import GraphState, AGENT_HANDOFFS
-from decorators import agent_error_handler  # FIX: was missing — all other agents have this
+from decorators import agent_error_handler
 from config import GROQ_API_KEY
 
 
@@ -16,7 +16,7 @@ llm = ChatGroq(model="llama-3.3-70b-versatile", temperature=0, api_key=GROQ_API_
 ALLOWED_HANDOFFS = AGENT_HANDOFFS["Summarizer"]
 
 
-@agent_error_handler  # FIX: was missing — unhandled exceptions would crash the graph instead of gracefully falling back to Aggregator
+@agent_error_handler  # Catches unhandled exceptions and falls back to Aggregator instead of crashing the graph
 def summarizer_agent(state: GraphState):
     """
     Generate a concise summary of available content.
@@ -36,15 +36,13 @@ def summarizer_agent(state: GraphState):
     context_texts = []
     context = state.get("context", {})
     
-    # Collect text from all available sources
     if context.get("retrieved_docs"):
         context_texts.extend(context["retrieved_docs"])
     if context.get("web_results"):
         context_texts.extend(context["web_results"])
     
-    # FIX: For compound queries (calc + summarize), Math runs first and stores
-    # results in context["calculations"]. Include that so the summary covers
-    # the computed numbers, not just the raw documents.
+    # For compound queries, Math runs first and stores results in context["calculations"] —
+    # include them so the summary covers the computed numbers, not just the raw documents.
     if context.get("calculations"):
         import json as _json
         context_texts.append("CALCULATION RESULTS:\n" + _json.dumps(context["calculations"], indent=2))
@@ -62,9 +60,9 @@ def summarizer_agent(state: GraphState):
         
         return {"next_agent": "Aggregator"}
     
-    # Prepare context string with length limit
     context_str = "\n".join(context_texts)
     
+    # Limit context length to avoid exceeding the prompt's token limit
     if len(context_str) > 30000:
         context_str = context_str[:30000] + "... [truncated]"
     

@@ -39,7 +39,6 @@ def validator_agent(state: GraphState):
     query = state["query"]
     context = state.get("context", {})
     
-    # Intent classification prompt
     intent_prompt = f"""You are an intent classifier for a financial document analysis system.
 
 Classify the user's query into ONE of these categories:
@@ -89,9 +88,7 @@ Your classification:
             print(f"Intent: {intent_type} (confidence: {confidence})")
             print(f"Reasoning: {reasoning}")
         
-        # Route based on intent classification
-        
-        # Casual queries (greetings, thanks)
+        # A = casual query (greeting, thanks)
         if intent_type == "A":
             print("Casual query detected, routing to Aggregator")
             
@@ -108,7 +105,7 @@ Your classification:
                 "next_agent": "Aggregator"
             }
         
-        # Conversation history queries
+        # B = conversation history query
         elif intent_type == "B":
             print("Conversation history query, routing to Aggregator")
             
@@ -125,7 +122,7 @@ Your classification:
                 "next_agent": "Aggregator"
             }
         
-        # Informational queries
+        # C = informational query — falls through to data validation below
         else:
             print("Informational query, proceeding with data validation")
         
@@ -133,13 +130,11 @@ Your classification:
         print(f"Intent classification failed: {e}")
         print("Defaulting to INFORMATIONAL (safe fallback)")
     
-    # Check data availability for informational queries
     has_docs = bool(context.get("retrieved_docs"))
     has_web = bool(context.get("web_results"))
     
     print(f"Data availability - Documents: {has_docs}, Web: {has_web}")
     
-    # No data available - route to WebSearch
     if not has_docs and not has_web:
         print("No data available, routing to WebSearch")
         
@@ -152,13 +147,11 @@ Your classification:
         })
         return {"next_agent": "WebSearch"}
     
-    # Query type detection for data processing
     query_lower = query.lower()
     
-    # FIX: Detect BOTH flags before routing — previously an early-return on
-    # needs_calculation meant needs_summary was never evaluated, so compound
-    # queries like "calculate revenue growth and summarize findings" always
-    # skipped the Summarizer entirely.
+    # Both calculation and summary keywords are checked here (rather than returning early
+    # on just one) so compound queries like "calculate revenue growth and summarize findings"
+    # route through both Table/Math and Summarizer instead of skipping the Summarizer.
     calculation_keywords = ["calculate", "compute", "compare", "difference",
                             "ratio", "margin", "growth", "percentage"]
     summary_keywords = ["summarize", "summary", "overview", "explain", "describe"]
@@ -168,8 +161,7 @@ Your classification:
 
     if needs_calculation and (has_docs or has_web):
         print("Calculation query detected, routing to Table agent")
-        # Carry needs_summary flag so Math agent can decide whether to
-        # continue to Summarizer or go straight to Aggregator.
+        # Pass along needs_summary so Math agent knows whether to forward to Summarizer afterward
         state["trace"].append({
             "agent": "Validator",
             "tool": "Query-type detection",
@@ -193,18 +185,14 @@ Your classification:
         })
         return {"context": context, "next_agent": "Summarizer"}
     
-    # Data relevance validation
-    
-    # FIX: If WebSearch already ran (websearch_failed or web_results present),
-    # never send back to WebSearch — that's the main recursion trigger.
-    # Just use whatever data we have and proceed to Aggregator.
+    # Avoid sending back to WebSearch if it already ran (websearch_failed, web_results
+    # present, or retriever_failed) — this prevents an infinite retry loop.
     websearch_already_ran = (
         context.get("websearch_failed") or
         context.get("web_results") or
         context.get("retriever_failed")
     )
 
-    # Prepare data sample for validation
     if has_web:
         data_sample = "\n\n".join(context["web_results"][:3])[:2500]
         data_type = "web search results"
@@ -239,9 +227,8 @@ Return JSON:
             is_relevant = result.get("relevant", False)
             reasoning = result.get("reasoning", "Validation complete")
             
-            # Determine next agent based on relevance
             if not is_relevant and not has_web and not websearch_already_ran:
-                # Try web search only if we haven't already tried it
+                # Only try WebSearch if we haven't already tried it
                 next_agent = "WebSearch"
             else:
                 # Data is relevant, or we've already tried all sources — go to Aggregator
@@ -251,7 +238,6 @@ Return JSON:
             
             print(f"Relevance check: {is_relevant} - Routing to {next_agent}")
         
-        # Validate handoff is allowed
         if next_agent not in ALLOWED_HANDOFFS:
             next_agent = "Aggregator"
         
@@ -268,7 +254,7 @@ Return JSON:
     except Exception as e:
         print(f"Validation failed: {e}")
         
-        # FIX: Never route back to WebSearch on exception if it already ran
+        # Don't route back to WebSearch on exception if it already ran (avoids recursion)
         if not has_web and not websearch_already_ran:
             return {"next_agent": "WebSearch"}
         else:

@@ -43,7 +43,6 @@ def websearch_agent(state: GraphState):
         raise ValueError("Empty query")
     
     try:
-        # Initialize Tavily client
         if not os.environ.get("TAVILY_API_KEY"):
             raise ToolError("TAVILY_API_KEY not configured")
         
@@ -52,7 +51,6 @@ def websearch_agent(state: GraphState):
         print(f"Searching web for: '{query}'")
         results = client.search(query, max_results=5)
         
-        # Extract text content from results
         web_texts = []
         if isinstance(results, dict) and "results" in results:
             for res in results["results"]:
@@ -62,7 +60,6 @@ def websearch_agent(state: GraphState):
         if not web_texts:
             print("Web search returned no results")
             
-            # Check for document fallback
             if context.get("retrieved_docs"):
                 print("Document fallback available, routing to Validator")
                 
@@ -79,7 +76,6 @@ def websearch_agent(state: GraphState):
                     "next_agent": "Validator"
                 }
             else:
-                # No data sources available
                 print("No data sources available, routing to Aggregator")
                 
                 state["trace"].append({
@@ -118,7 +114,6 @@ def websearch_agent(state: GraphState):
     except Exception as e:
         print(f"Web search failed: {e}")
         
-        # Check for document fallback
         if context.get("retrieved_docs"):
             print("Web search failed, using document fallback")
             
@@ -135,7 +130,6 @@ def websearch_agent(state: GraphState):
                 "next_agent": "Validator"
             }
         else:
-            # No fallback available
             print("No alternative data sources available")
             
             state["trace"].append({
